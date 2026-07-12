@@ -1,0 +1,99 @@
+<div class="page">
+  <a class="back-link" routerLink="/">← Retour au programme</a>
+  <p class="eyebrow"><app-icon name="dumbbell" [size]="14" /> Musculation</p>
+  <h1>Force & Hypertrophie</h1>
+  <p class="subtitle">
+    Post 10 km · 4 séances/semaine · Objectif muscle-up & tractions.
+  </p>
+
+  <div class="stats-row">
+    <div class="stat-tile stat-tile--strength">
+      <span class="stat-tile__icon"><app-icon name="dumbbell" [size]="16" /></span>
+      <div>
+        <div class="stat-tile__value">{{ sessions.length }}</div>
+        <div class="stat-tile__label">séances / semaine</div>
+      </div>
+    </div>
+    @if (nextSession) {
+      <div class="stat-tile stat-tile--current">
+        <span class="stat-tile__icon"><app-icon name="calendar" [size]="16" /></span>
+        <div>
+          <div class="stat-tile__value">{{ nextSession.label }}</div>
+          <div class="stat-tile__label">
+            {{ nextSession.isToday ? "Aujourd'hui" : nextSession.day }}
+          </div>
+        </div>
+      </div>
+    }
+    <div class="stat-tile stat-tile--strength">
+      <span class="stat-tile__icon"><app-icon name="trending-up" [size]="16" /></span>
+      <div>
+        <div class="stat-tile__value">{{ tractionTotalWeeks }} sem.</div>
+        <div class="stat-tile__label">Progression tractions</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="session-grid">
+    @for (s of sessions; track s.id) {
+      <a [class]="'session-card theme-' + s.theme" [routerLink]="['/strength', s.id]">
+        <div class="session-card__day">{{ s.day }}</div>
+        <div class="session-card__name">
+          <span class="theme-dot"></span>
+          {{ s.name }}
+        </div>
+        <p class="session-card__intro">{{ s.intro }}</p>
+        <span class="session-card__link">
+          Voir la séance
+          <app-icon name="chevron-right" [size]="13" />
+        </span>
+      </a>
+    }
+  </div>
+
+  <div class="card">
+    <h2>Principes du programme</h2>
+    <ul>
+      @for (item of principles; track item) {
+        <li>{{ item }}</li>
+      }
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Progression tractions vers muscle-up</h2>
+    <div class="table-scroll">
+      <table class="progression-table">
+        <thead>
+          <tr>
+            <th>Phase</th>
+            <th>Durée</th>
+            <th>Format tractions</th>
+            <th>Objectif</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (phase of tractionProgression; track phase.phase) {
+            <tr>
+              <td>{{ phase.phase }}</td>
+              <td>{{ phase.duree }}</td>
+              <td>{{ phase.format }}</td>
+              <td>{{ phase.objectif }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card notes">
+    @for (section of notes; track section.title) {
+      <h3>{{ section.title }}</h3>
+      <ul>
+        @for (item of section.items; track item) {
+          <li>{{ item }}</li>
+        }
+      </ul>
+    }
+  </div>
+</div>

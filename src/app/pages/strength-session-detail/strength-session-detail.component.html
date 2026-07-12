@@ -1,0 +1,65 @@
+@if (session(); as s) {
+  <div class="page theme-{{ s.theme }}">
+    <a class="back-link" routerLink="/">← Retour au programme</a>
+    <p class="eyebrow"><app-icon name="dumbbell" [size]="14" /> {{ s.day }}</p>
+    <h1><span class="theme-dot"></span>{{ s.name }}</h1>
+    <p class="subtitle">{{ s.intro }}</p>
+    <a class="overview-link" routerLink="/strength">
+      Voir le programme complet, les principes et la progression tractions
+      <app-icon name="chevron-right" [size]="13" />
+    </a>
+
+    @for (group of s.groups; track group.title) {
+      <div class="card">
+        <h2 class="group-title">{{ group.title }}</h2>
+        <div class="table-scroll">
+          <table class="exercise-table">
+            <thead>
+              <tr>
+                <th class="exercise-col">Exercice</th>
+                @for (week of groupWeeks(group); track week) {
+                  <th>{{ week }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (exercise of group.exercises; track exercise.id) {
+                <tr>
+                  <td class="exercise-col">
+                    <div class="exercise-name">{{ exercise.name }}</div>
+                    <div class="exercise-scheme">{{ exercise.scheme }}</div>
+                  </td>
+                  @for (week of groupWeeks(group); track week) {
+                    <td>
+                      @if (plannedValue(group, exercise.id, week); as planned) {
+                        <div class="cell">
+                          <label class="cell__planned">
+                            <input
+                              type="checkbox"
+                              [checked]="tracking.entry(trackingKey(exercise.id, week)).done"
+                              (change)="tracking.toggleDone(trackingKey(exercise.id, week))"
+                            />
+                            {{ planned }}
+                          </label>
+                          <input
+                            class="cell__actual"
+                            type="text"
+                            placeholder="réel..."
+                            [value]="tracking.entry(trackingKey(exercise.id, week)).actual ?? ''"
+                            (change)="onActualInput(exercise.id, week, $event)"
+                          />
+                        </div>
+                      } @else {
+                        <span class="muted">—</span>
+                      }
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+  </div>
+}

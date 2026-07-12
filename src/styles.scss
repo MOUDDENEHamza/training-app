@@ -1,1 +1,284 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Sora', var(--font-sans);
+
+  /* Neutral surface system */
+  --color-canvas: #f6f7fb;
+  --color-surface: #ffffff;
+  --color-border: #e7e8ee;
+  --color-border-subtle: #f0f1f5;
+  --color-text: #14161a;
+  --color-text-muted: #6b7280;
+  --color-text-faint: #9ca3af;
+
+  /* Single accent, used for links / active states / actions */
+  --color-accent: #4338ca;
+  --color-accent-hover: #372da8;
+  --color-accent-soft: #eef0fd;
+  --color-accent-soft-text: #4338ca;
+
+  /* Reserved status accent — "this is today / current" only. Used sparingly:
+     a badge + a thin accent bar, never a flat highlighter fill. */
+  --color-current: #b45309;
+  --color-current-border: #e3a340;
+  --color-current-soft: #fdf1dc;
+
+  --radius-md: 10px;
+  --radius-lg: 18px;
+  --shadow-card: 0 1px 2px rgba(20, 22, 26, 0.03), 0 8px 24px rgba(20, 22, 26, 0.03);
+  --shadow-card-hover: 0 4px 10px rgba(20, 22, 26, 0.05), 0 12px 32px rgba(20, 22, 26, 0.06);
+
+  /* Per-discipline identity colors — for icons, tags, and small dots (never large fills) */
+  --color-strength: #be3455;
+  --color-strength-soft: #fceef2;
+  --color-red: #b23b3b;
+  --color-green: #2f7d5c;
+  --color-purple: #6a4a94;
+  --color-orange: #c56a1f;
+  --color-running: #4338ca;
+  --color-swimming: #0e7c86;
+  --color-swimming-soft: #e6f4f5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-text);
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  background-color: var(--color-canvas);
+  background-image: linear-gradient(160deg, rgba(96, 165, 250, 0.1) 0%, rgba(167, 139, 250, 0.07) 25%, var(--color-canvas) 45%);
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--color-text);
+}
+
+h1 {
+  font-size: 1.9rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.05rem;
+}
+
+a {
+  color: inherit;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+input[type='checkbox'] {
+  accent-color: var(--color-accent);
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+input[type='text'],
+select,
+button {
+  font-family: inherit;
+  color: var(--color-text);
+}
+
+input[type='text']:focus,
+select:focus,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.page {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: 26px 30px;
+  margin-bottom: 24px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-bottom: 24px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  text-decoration: none;
+  transition: color 0.15s ease;
+
+  &:hover {
+    color: var(--color-accent);
+  }
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 10px;
+}
+
+.current-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-current);
+  background: var(--color-current-soft);
+  border: 1px solid var(--color-current-border);
+  padding: 2px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.stat-tile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  border-top: 3px solid var(--color-accent);
+
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  &--strength {
+    border-top-color: var(--color-strength);
+
+    .stat-tile__icon {
+      background: var(--color-strength-soft);
+      color: var(--color-strength);
+    }
+  }
+
+  &--running {
+    border-top-color: var(--color-running);
+
+    .stat-tile__icon {
+      background: var(--color-accent-soft);
+      color: var(--color-running);
+    }
+  }
+
+  &--swimming {
+    border-top-color: var(--color-swimming);
+
+    .stat-tile__icon {
+      background: var(--color-swimming-soft);
+      color: var(--color-swimming);
+    }
+  }
+
+  &--current {
+    border-top-color: var(--color-current);
+
+    .stat-tile__icon {
+      background: var(--color-current-soft);
+      color: var(--color-current);
+    }
+  }
+
+  &__value {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    line-height: 1.1;
+  }
+
+  &__label {
+    color: var(--color-text-muted);
+    font-size: 0.76rem;
+    margin-top: 2px;
+  }
+}
+
+.progress-bar {
+  height: 7px;
+  border-radius: 999px;
+  background: var(--color-border-subtle);
+  overflow: hidden;
+
+  &__fill {
+    height: 100%;
+    border-radius: 999px;
+    background: var(--color-accent);
+    transition: width 0.3s ease;
+  }
+
+  &--strength &__fill {
+    background: var(--color-strength);
+  }
+
+  &--running &__fill {
+    background: var(--color-running);
+  }
+
+  &--swimming &__fill {
+    background: var(--color-swimming);
+  }
+}
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  margin-bottom: 6px;
+}

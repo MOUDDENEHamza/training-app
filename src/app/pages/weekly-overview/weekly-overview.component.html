@@ -1,0 +1,100 @@
+<div class="page">
+  <div class="stats-row">
+    <div class="stat-tile stat-tile--current">
+      <span class="stat-tile__icon"><app-icon name="calendar" [size]="16" /></span>
+      <div>
+        <div class="stat-tile__value">{{ today }}</div>
+        <div class="stat-tile__label">Aujourd'hui</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-tile--strength">
+      <span class="stat-tile__icon"><app-icon name="dumbbell" [size]="16" /></span>
+      <div>
+        <div class="stat-tile__value">{{ strengthCount }}</div>
+        <div class="stat-tile__label">séances muscu / sem.</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-tile--running">
+      <span class="stat-tile__icon"><app-icon name="running" [size]="16" /></span>
+      <div>
+        <div class="stat-tile__value">{{ runningCount }}</div>
+        <div class="stat-tile__label">séances course / sem.</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-tile--swimming">
+      <span class="stat-tile__icon"><app-icon name="waves" [size]="16" /></span>
+      <div>
+        <div class="stat-tile__value">{{ swimmingCount }}</div>
+        <div class="stat-tile__label">séances natation / sem.</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-tile--running">
+      <span class="stat-tile__icon"><app-icon name="check-circle" [size]="16" /></span>
+      <div>
+        <div class="stat-tile__value">{{ daysToRace }}</div>
+        <div class="stat-tile__label">jours avant le semi</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-grid">
+    @for (dayEntry of weekPlan; track dayEntry.day) {
+      <div class="day-col" [class.is-today]="dayEntry.day === today">
+        <div class="day-col__header">
+          {{ dayEntry.day }}
+          @if (dayEntry.day === today) {
+            <span class="current-chip">Aujourd'hui</span>
+          }
+        </div>
+
+        <div class="day-col__body">
+          @if (dayEntry.strengthSessionId) {
+            <a class="tag tag--block tag--strength" [routerLink]="['/strength', dayEntry.strengthSessionId]">
+              <app-icon name="dumbbell" [size]="13" />
+              {{ dayEntry.strengthLabel }}
+            </a>
+          }
+
+          @if (dayEntry.cardio) {
+            @if (dayEntry.cardio.running) {
+              <a class="tag tag--block tag--running" routerLink="/running">
+                <app-icon name="running" [size]="13" />
+                Course
+              </a>
+            }
+            @if (dayEntry.cardio.swimming) {
+              <a class="tag tag--block tag--swimming" routerLink="/swimming">
+                <app-icon name="waves" [size]="13" />
+                Natation
+              </a>
+            }
+            @if (!dayEntry.cardio.running && !dayEntry.cardio.swimming) {
+              <div class="day-col__cardio-label">{{ dayEntry.cardio.label }}</div>
+            }
+          }
+        </div>
+      </div>
+    }
+  </div>
+
+  <p class="eyebrow section-spacer"><app-icon name="calendar" [size]="14" /> Vue d'ensemble</p>
+  <div class="season-grid">
+    @for (row of seasonOverview; track row.period) {
+      <div class="season-card">
+        <div class="season-card__period">{{ row.period }}</div>
+        <div class="season-card__row season-card__row--running">
+          <app-icon name="running" [size]="14" />
+          <span>{{ row.running }}</span>
+        </div>
+        <div class="season-card__row season-card__row--swimming">
+          <app-icon name="waves" [size]="14" />
+          <span>{{ row.swimming }}</span>
+        </div>
+        <div class="season-card__row season-card__row--strength">
+          <app-icon name="dumbbell" [size]="14" />
+          <span>{{ row.strength }}</span>
+        </div>
+      </div>
+    }
+  </div>
+</div>

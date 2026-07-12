@@ -1,0 +1,154 @@
+<div class="page">
+  <a class="back-link" routerLink="/">← Retour au programme</a>
+  <p class="eyebrow"><app-icon name="waves" [size]="14" /> Natation</p>
+  <h1>Débutant technique</h1>
+  <p class="subtitle">
+    Priorité absolue : la TECHNIQUE avant le volume. Toutes les séances sont en longueurs (L).
+  </p>
+
+  <div class="stats-row">
+    <div class="stat-tile stat-tile--swimming">
+      <span class="stat-tile__icon"><app-icon name="waves" [size]="16" /></span>
+      <div>
+        <div class="stat-tile__value">{{ currentPhase.title }}</div>
+        <div class="stat-tile__label">Phase actuelle</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-tile--swimming">
+      <span class="stat-tile__icon"><app-icon name="calendar" [size]="16" /></span>
+      <div>
+        <div class="stat-tile__value">{{ currentPhase.volume }}</div>
+        <div class="stat-tile__label">Volume par séance</div>
+      </div>
+    </div>
+    <div class="stat-tile stat-tile--swimming">
+      <span class="stat-tile__icon"><app-icon name="calendar" [size]="16" /></span>
+      <div>
+        <div class="stat-tile__value">2</div>
+        <div class="stat-tile__label">séances / sem.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="progress-meta">
+      <span>Progression du programme</span>
+      <span>Phase {{ progress.index }} / {{ progress.total }}</span>
+    </div>
+    <div class="progress-bar progress-bar--swimming">
+      <div class="progress-bar__fill" [style.width.%]="progress.percent"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Matériel conseillé</h2>
+    <table class="equipment-table">
+      <thead>
+        <tr>
+          <th>Accessoire</th>
+          <th>Utilité</th>
+          <th>Priorité</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (item of program.equipment; track item.name) {
+          <tr>
+            <td class="name-cell">{{ item.name }}</td>
+            <td>{{ item.utility }}</td>
+            <td>{{ item.priority }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Les 4 clés du crawl efficace</h2>
+    <ol class="technique-keys">
+      @for (key of program.techniqueKeys; track key.title) {
+        <li>
+          <strong>{{ key.title }}</strong> : {{ key.description }}
+        </li>
+      }
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>Programme natation — 4 phases</h2>
+
+    @for (phase of program.phases; track phase.id) {
+      <div class="phase-block" [class.is-current-phase]="phase.id === currentPhaseId">
+        <h3>
+          {{ phase.title }} <span class="phase-period">— {{ phase.period }}</span>
+          @if (phase.id === currentPhaseId) {
+            <span class="current-chip">Actuelle</span>
+          }
+        </h3>
+        <p class="phase-volume">Volume : {{ phase.volume }}</p>
+        <div class="seance-grid">
+          <div class="seance">
+            <label class="seance__header">
+              <input
+                type="checkbox"
+                [checked]="tracking.entry(trackingKey(phase.id, 'A')).done"
+                (change)="tracking.toggleDone(trackingKey(phase.id, 'A'))"
+              />
+              {{ phase.seanceA.label }}
+            </label>
+            <ul>
+              @for (line of phase.seanceA.content; track line) {
+                <li>{{ line }}</li>
+              }
+            </ul>
+          </div>
+          <div class="seance">
+            <label class="seance__header">
+              <input
+                type="checkbox"
+                [checked]="tracking.entry(trackingKey(phase.id, 'B')).done"
+                (change)="tracking.toggleDone(trackingKey(phase.id, 'B'))"
+              />
+              {{ phase.seanceB.label }}
+            </label>
+            <ul>
+              @for (line of phase.seanceB.content; track line) {
+                <li>{{ line }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="card">
+    <h2>Détail des éducatifs</h2>
+    <table class="drills-table">
+      <thead>
+        <tr>
+          <th>Exercice</th>
+          <th>Description</th>
+          <th>But</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (drill of program.drills; track drill.name) {
+          <tr>
+            <td class="name-cell">{{ drill.name }}</td>
+            <td>{{ drill.description }}</td>
+            <td>{{ drill.goal }}</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>Conseils clés</h2>
+    <ul>
+      @for (tip of program.tips; track tip) {
+        <li>{{ tip }}</li>
+      }
+    </ul>
+  </div>
+</div>

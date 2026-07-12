@@ -1,0 +1,155 @@
+.page {
+  background-image: radial-gradient(
+    700px circle at 15% -15%,
+    rgba(190, 52, 85, 0.1),
+    transparent 60%
+  );
+  background-repeat: no-repeat;
+}
+
+.theme-red {
+  --theme-color: var(--color-red);
+}
+
+.theme-green {
+  --theme-color: var(--color-green);
+}
+
+.theme-purple {
+  --theme-color: var(--color-purple);
+}
+
+.theme-orange {
+  --theme-color: var(--color-orange);
+}
+
+h1 {
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  margin-top: 0;
+  margin-bottom: 28px;
+  font-size: 0.95rem;
+}
+
+.session-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.session-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    border-color: var(--theme-color);
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  &__day {
+    color: var(--color-text-faint);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  &__intro {
+    color: var(--color-text-muted);
+    font-size: 0.82rem;
+    line-height: 1.4;
+    margin: 0;
+    flex: 1;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--theme-color);
+    font-size: 0.82rem;
+    font-weight: 500;
+  }
+}
+
+.theme-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--theme-color);
+  flex-shrink: 0;
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.table-scroll {
+  overflow-x: auto;
+}
+
+.progression-table {
+  th {
+    text-align: left;
+    color: var(--color-text-faint);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0 12px 10px;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+
+  tr:last-child td {
+    border-bottom: none;
+  }
+}
+
+.notes {
+  h2,
+  h3 {
+    margin-bottom: 6px;
+  }
+
+  ul {
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-left: 20px;
+    color: var(--color-text-muted);
+    font-size: 0.92rem;
+  }
+
+  li {
+    margin-bottom: 8px;
+  }
+
+  ul:last-child {
+    margin-bottom: 0;
+  }
+}
