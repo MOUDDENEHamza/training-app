@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { RUNNING_PROGRAM, RACE_DATE } from '../../data/running-program.data';
 import { TrackingService } from '../../services/tracking.service';
 import { guessCurrentRunningWeekId } from '../../utils/date-guess';
@@ -19,17 +19,26 @@ function phaseIdForWeek(program: typeof RUNNING_PROGRAM, weekId: string): string
   styleUrl: './running-program.component.scss',
 })
 export class RunningProgramComponent {
+  private readonly route = inject(ActivatedRoute);
   readonly tracking = inject(TrackingService);
   readonly program = RUNNING_PROGRAM;
 
   readonly currentWeekId = guessCurrentRunningWeekId(this.program);
   readonly activePhaseId = signal(phaseIdForWeek(this.program, this.currentWeekId));
+  readonly highlightCurrentWeek = signal(false);
 
   readonly progress = runningWeekProgress(this.program, this.currentWeekId);
   readonly daysToRace = daysUntil(RACE_DATE);
   readonly currentPhaseTitle =
     this.program.phases.find((p) => p.id === phaseIdForWeek(this.program, this.currentWeekId))
       ?.title ?? '';
+
+  constructor() {
+    if (this.route.snapshot.fragment === 'phases') {
+      this.highlightCurrentWeek.set(true);
+      setTimeout(() => this.highlightCurrentWeek.set(false), 2200);
+    }
+  }
 
   selectPhase(id: string): void {
     this.activePhaseId.set(id);

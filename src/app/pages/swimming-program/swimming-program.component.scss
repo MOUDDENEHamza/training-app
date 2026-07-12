@@ -78,6 +78,20 @@ h1 {
   &.is-current-phase {
     box-shadow: inset 3px 0 0 var(--color-current-border);
   }
+
+  &.is-highlighted {
+    animation: highlight-phase 2.2s ease-out;
+  }
+}
+
+@keyframes highlight-phase {
+  0%,
+  35% {
+    background: var(--color-current-soft);
+  }
+  100% {
+    background: transparent;
+  }
 }
 
 .phase-block h3 {

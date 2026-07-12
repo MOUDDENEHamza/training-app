@@ -8,6 +8,9 @@
 }
 
 h1 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   margin-bottom: 6px;
 }
 
@@ -133,6 +136,20 @@ h1 {
 .weeks-table tr.is-current-week td:first-child {
   box-shadow: inset 3px 0 0 var(--color-current-border);
   padding-left: 9px;
+}
+
+.weeks-table tr.is-highlighted td {
+  animation: highlight-week 2.2s ease-out;
+}
+
+@keyframes highlight-week {
+  0%,
+  35% {
+    background: var(--color-current-soft);
+  }
+  100% {
+    background: transparent;
+  }
 }
 
 .current-chip {

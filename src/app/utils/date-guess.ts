@@ -12,6 +12,10 @@ const MONTH_NUMBERS: Record<string, number> = {
   oct: 10,
   novembre: 11,
   nov: 11,
+  decembre: 12,
+  décembre: 12,
+  dec: 12,
+  déc: 12,
 };
 
 function monthNumber(token: string): number | null {
@@ -105,6 +109,7 @@ function firstMonthMentioned(period: string): number | null {
     [/sept/, 9],
     [/oct/, 10],
     [/nov/, 11],
+    [/d[ée]c/, 12],
   ];
   for (const [pattern, month] of order) {
     if (pattern.test(lower)) return month;

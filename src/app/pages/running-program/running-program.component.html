@@ -1,7 +1,6 @@
 <div class="page">
   <a class="back-link" routerLink="/">← Retour au programme</a>
-  <p class="eyebrow"><app-icon name="running" [size]="14" /> Course à pied</p>
-  <h1>Semi-marathon</h1>
+  <h1><app-icon name="running" [size]="22" /> Semi-marathon</h1>
   <p class="subtitle">{{ program.objective }}</p>
 
   <div class="stats-row">
@@ -26,6 +25,73 @@
         <div class="stat-tile__label">jours avant le semi</div>
       </div>
     </div>
+  </div>
+
+  <div class="card" id="phases">
+    <h2>Phases d'entraînement</h2>
+
+    <div class="phase-tabs">
+      @for (phase of program.phases; track phase.id) {
+        <button
+          type="button"
+          class="phase-tab"
+          [class.is-active]="phase.id === activePhaseId()"
+          (click)="selectPhase(phase.id)"
+        >
+          {{ phase.title }}
+        </button>
+      }
+    </div>
+
+    @if (activePhase(); as phase) {
+      <div class="phase-detail">
+        <p class="phase-meta">{{ phase.period }} · {{ phase.duration }}</p>
+        <p class="phase-objective">{{ phase.objective }}</p>
+
+        <div class="table-scroll">
+          <table class="weeks-table">
+            <thead>
+              <tr>
+                <th>Semaine</th>
+                @for (col of phase.columns; track col) {
+                  <th>{{ col }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (week of phase.weeks; track week.id) {
+                <tr
+                  [class.is-current-week]="week.id === currentWeekId"
+                  [class.is-highlighted]="week.id === currentWeekId && highlightCurrentWeek()"
+                >
+                  <td class="week-cell">
+                    <div class="week-id">
+                      {{ week.id }}
+                      @if (week.id === currentWeekId) {
+                        <span class="current-chip">Actuelle</span>
+                      }
+                    </div>
+                    <div class="week-range">{{ week.dateRange }}</div>
+                  </td>
+                  @for (session of week.sessions; track session.label) {
+                    <td>
+                      <label class="cell-check">
+                        <input
+                          type="checkbox"
+                          [checked]="tracking.entry(trackingKey(phase.id, week.id, session.label)).done"
+                          (change)="tracking.toggleDone(trackingKey(phase.id, week.id, session.label))"
+                        />
+                        {{ session.content }}
+                      </label>
+                    </td>
+                  }
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
   </div>
 
   <div class="card">
@@ -60,70 +126,6 @@
         }
       </tbody>
     </table>
-  </div>
-
-  <div class="card">
-    <h2>Phases d'entraînement</h2>
-
-    <div class="phase-tabs">
-      @for (phase of program.phases; track phase.id) {
-        <button
-          type="button"
-          class="phase-tab"
-          [class.is-active]="phase.id === activePhaseId()"
-          (click)="selectPhase(phase.id)"
-        >
-          {{ phase.title }}
-        </button>
-      }
-    </div>
-
-    @if (activePhase(); as phase) {
-      <div class="phase-detail">
-        <p class="phase-meta">{{ phase.period }} · {{ phase.duration }}</p>
-        <p class="phase-objective">{{ phase.objective }}</p>
-
-        <div class="table-scroll">
-          <table class="weeks-table">
-            <thead>
-              <tr>
-                <th>Semaine</th>
-                @for (col of phase.columns; track col) {
-                  <th>{{ col }}</th>
-                }
-              </tr>
-            </thead>
-            <tbody>
-              @for (week of phase.weeks; track week.id) {
-                <tr [class.is-current-week]="week.id === currentWeekId">
-                  <td class="week-cell">
-                    <div class="week-id">
-                      {{ week.id }}
-                      @if (week.id === currentWeekId) {
-                        <span class="current-chip">Actuelle</span>
-                      }
-                    </div>
-                    <div class="week-range">{{ week.dateRange }}</div>
-                  </td>
-                  @for (session of week.sessions; track session.label) {
-                    <td>
-                      <label class="cell-check">
-                        <input
-                          type="checkbox"
-                          [checked]="tracking.entry(trackingKey(phase.id, week.id, session.label)).done"
-                          (change)="tracking.toggleDone(trackingKey(phase.id, week.id, session.label))"
-                        />
-                        {{ session.content }}
-                      </label>
-                    </td>
-                  }
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    }
   </div>
 
   <div class="card">

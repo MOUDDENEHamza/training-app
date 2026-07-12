@@ -73,11 +73,15 @@
     </ol>
   </div>
 
-  <div class="card">
+  <div class="card" id="phases">
     <h2>Programme natation — 4 phases</h2>
 
     @for (phase of program.phases; track phase.id) {
-      <div class="phase-block" [class.is-current-phase]="phase.id === currentPhaseId">
+      <div
+        class="phase-block"
+        [class.is-current-phase]="phase.id === currentPhaseId"
+        [class.is-highlighted]="phase.id === currentPhaseId && highlightCurrentPhase()"
+      >
         <h3>
           {{ phase.title }} <span class="phase-period">— {{ phase.period }}</span>
           @if (phase.id === currentPhaseId) {

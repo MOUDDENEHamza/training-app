@@ -57,13 +57,13 @@
 
           @if (dayEntry.cardio) {
             @if (dayEntry.cardio.running) {
-              <a class="tag tag--block tag--running" routerLink="/running">
+              <a class="tag tag--block tag--running" routerLink="/running" fragment="phases">
                 <app-icon name="running" [size]="13" />
                 Course
               </a>
             }
             @if (dayEntry.cardio.swimming) {
-              <a class="tag tag--block tag--swimming" routerLink="/swimming">
+              <a class="tag tag--block tag--swimming" routerLink="/swimming" fragment="phases">
                 <app-icon name="waves" [size]="13" />
                 Natation
               </a>

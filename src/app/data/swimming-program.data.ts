@@ -92,7 +92,7 @@ export const SWIMMING_PROGRAM: SwimmingProgram = {
     {
       id: 'decouverte',
       title: '1 – Découverte',
-      period: 'Juin (4 sem.)',
+      period: 'Juillet (4 sem.)',
       seanceA: {
         label: 'Séance A – Technique (mercredi)',
         content: [
@@ -116,7 +116,7 @@ export const SWIMMING_PROGRAM: SwimmingProgram = {
     {
       id: 'base-technique',
       title: '2 – Base technique',
-      period: 'Juillet (4 sem.)',
+      period: 'Août (4 sem.)',
       seanceA: {
         label: 'Séance A – Technique (mercredi)',
         content: [
@@ -140,7 +140,7 @@ export const SWIMMING_PROGRAM: SwimmingProgram = {
     {
       id: 'developpement',
       title: '3 – Développement',
-      period: 'Août-sept. (8 sem.)',
+      period: 'Sept.-oct. (8 sem.)',
       seanceA: {
         label: 'Séance A – Technique (mercredi)',
         content: [
@@ -165,7 +165,7 @@ export const SWIMMING_PROGRAM: SwimmingProgram = {
     {
       id: 'prepa-ironman',
       title: '4 – Prépa Ironman',
-      period: 'Oct.-nov. (6 sem.)',
+      period: 'Nov.-déc. (6 sem.)',
       seanceA: {
         label: 'Séance A – Technique (mercredi)',
         content: [
