@@ -42,24 +42,26 @@
 
   <div class="card">
     <h2>Matériel conseillé</h2>
-    <table class="equipment-table">
-      <thead>
-        <tr>
-          <th>Accessoire</th>
-          <th>Utilité</th>
-          <th>Priorité</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (item of program.equipment; track item.name) {
+    <div class="table-scroll">
+      <table class="equipment-table">
+        <thead>
           <tr>
-            <td class="name-cell">{{ item.name }}</td>
-            <td>{{ item.utility }}</td>
-            <td>{{ item.priority }}</td>
+            <th>Accessoire</th>
+            <th>Utilité</th>
+            <th>Priorité</th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (item of program.equipment; track item.name) {
+            <tr>
+              <td class="name-cell">{{ item.name }}</td>
+              <td>{{ item.utility }}</td>
+              <td>{{ item.priority }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="card">
@@ -127,24 +129,26 @@
 
   <div class="card">
     <h2>Détail des éducatifs</h2>
-    <table class="drills-table">
-      <thead>
-        <tr>
-          <th>Exercice</th>
-          <th>Description</th>
-          <th>But</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (drill of program.drills; track drill.name) {
+    <div class="table-scroll">
+      <table class="drills-table">
+        <thead>
           <tr>
-            <td class="name-cell">{{ drill.name }}</td>
-            <td>{{ drill.description }}</td>
-            <td>{{ drill.goal }}</td>
+            <th>Exercice</th>
+            <th>Description</th>
+            <th>But</th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (drill of program.drills; track drill.name) {
+            <tr>
+              <td class="name-cell">{{ drill.name }}</td>
+              <td>{{ drill.description }}</td>
+              <td>{{ drill.goal }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="card">

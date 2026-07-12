@@ -23,6 +23,8 @@ h1 {
 
 .pace-table,
 .splits-table {
+  min-width: 520px;
+
   th {
     text-align: left;
     color: var(--color-text-faint);

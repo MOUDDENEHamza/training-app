@@ -22,8 +22,14 @@ h1 {
   font-size: 0.95rem;
 }
 
+.table-scroll {
+  overflow-x: auto;
+}
+
 .equipment-table,
 .drills-table {
+  min-width: 520px;
+
   th {
     text-align: left;
     color: var(--color-text-faint);

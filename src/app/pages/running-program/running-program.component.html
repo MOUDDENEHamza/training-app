@@ -106,46 +106,50 @@
 
   <div class="card">
     <h2>Allures de référence</h2>
-    <table class="pace-table">
-      <thead>
-        <tr>
-          <th>Allure</th>
-          <th>min/km</th>
-          <th>km/h</th>
-          <th>Utilisation</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (row of program.paces; track row.allure) {
+    <div class="table-scroll">
+      <table class="pace-table">
+        <thead>
           <tr>
-            <td class="allure-cell">{{ row.allure }}</td>
-            <td>{{ row.minKm }}</td>
-            <td>{{ row.kmh }}</td>
-            <td>{{ row.usage }}</td>
+            <th>Allure</th>
+            <th>min/km</th>
+            <th>km/h</th>
+            <th>Utilisation</th>
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          @for (row of program.paces; track row.allure) {
+            <tr>
+              <td class="allure-cell">{{ row.allure }}</td>
+              <td>{{ row.minKm }}</td>
+              <td>{{ row.kmh }}</td>
+              <td>{{ row.usage }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <div class="card">
     <h2>Stratégie de course</h2>
     <p>{{ program.raceStrategy }}</p>
-    <table class="splits-table">
-      <thead>
-        <tr>
-          @for (split of program.splitTargets; track split.distance) {
-            <th>{{ split.distance }}</th>
-          }
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          @for (split of program.splitTargets; track split.distance) {
-            <td>{{ split.time }}</td>
-          }
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-scroll">
+      <table class="splits-table">
+        <thead>
+          <tr>
+            @for (split of program.splitTargets; track split.distance) {
+              <th>{{ split.distance }}</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            @for (split of program.splitTargets; track split.distance) {
+              <td>{{ split.time }}</td>
+            }
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
