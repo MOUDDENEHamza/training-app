@@ -10,6 +10,7 @@ import { resolveTodaysSession } from '../../utils/todays-session';
 import { IconComponent } from '../../shared/icon/icon.component';
 import { RepCounterSheetComponent } from '../../shared/rep-counter-sheet/rep-counter-sheet.component';
 import { WeekSessionsCardComponent } from './week-sessions-card/week-sessions-card.component';
+import { PhaseWeeksTableComponent } from './phase-weeks-table/phase-weeks-table.component';
 import { runningTrackingKey } from './running-tracking-key';
 
 function phaseIdForWeek(program: typeof RUNNING_PROGRAM, weekId: string): string {
@@ -34,7 +35,13 @@ interface OpenSession {
 @Component({
   selector: 'app-running-program',
   standalone: true,
-  imports: [RouterLink, IconComponent, RepCounterSheetComponent, WeekSessionsCardComponent],
+  imports: [
+    RouterLink,
+    IconComponent,
+    RepCounterSheetComponent,
+    WeekSessionsCardComponent,
+    PhaseWeeksTableComponent,
+  ],
   templateUrl: './running-program.component.html',
   styleUrl: './running-program.component.scss',
 })
@@ -44,7 +51,7 @@ export class RunningProgramComponent {
   readonly program = RUNNING_PROGRAM;
 
   readonly currentWeekId = guessCurrentRunningWeekId(this.program);
-  readonly activePhaseId = signal(phaseIdForWeek(this.program, this.currentWeekId));
+  readonly initialPhaseId = phaseIdForWeek(this.program, this.currentWeekId);
   readonly highlightCurrentWeek = signal(false);
   readonly openSession = signal<OpenSession | null>(null);
   readonly currentWeek = weekById(this.program, this.currentWeekId);
@@ -66,24 +73,8 @@ export class RunningProgramComponent {
     }
   }
 
-  selectPhase(id: string): void {
-    this.activePhaseId.set(id);
-  }
-
-  activePhase() {
-    return this.program.phases.find((p) => p.id === this.activePhaseId())!;
-  }
-
-  trackingKey(phaseId: string, weekId: string, label: string): string {
-    return runningTrackingKey(phaseId, weekId, label);
-  }
-
-  repCount(content: string): number | null {
-    return parseRepCount(content);
-  }
-
-  doneReps(phaseId: string, weekId: string, label: string): number {
-    return this.tracking.entry(this.trackingKey(phaseId, weekId, label)).reps ?? 0;
+  private doneReps(phaseId: string, weekId: string, label: string): number {
+    return this.tracking.entry(runningTrackingKey(phaseId, weekId, label)).reps ?? 0;
   }
 
   openCounter(phaseId: string, weekId: string, session: RunningWeekSession): void {
@@ -142,7 +133,7 @@ export class RunningProgramComponent {
     if (!open) {
       return;
     }
-    const key = this.trackingKey(open.phaseId, open.weekId, open.label);
+    const key = runningTrackingKey(open.phaseId, open.weekId, open.label);
     const next = Math.min(Math.max(this.openSessionCount() + delta, 0), open.total);
     this.tracking.setReps(key, next);
     this.tracking.setDone(key, next >= open.total);

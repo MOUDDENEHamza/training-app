@@ -38,83 +38,13 @@
 
   <div class="card" id="phases">
     <h2>Phases d'entraînement</h2>
-
-    <div class="phase-tabs">
-      @for (phase of program.phases; track phase.id) {
-        <button
-          type="button"
-          class="phase-tab"
-          [class.is-active]="phase.id === activePhaseId()"
-          (click)="selectPhase(phase.id)"
-        >
-          {{ phase.title }}
-        </button>
-      }
-    </div>
-
-    @if (activePhase(); as phase) {
-      <div class="phase-detail">
-        <p class="phase-meta">{{ phase.period }} · {{ phase.duration }}</p>
-        <p class="phase-objective">{{ phase.objective }}</p>
-
-        <div class="table-scroll">
-          <table class="weeks-table">
-            <thead>
-              <tr>
-                <th>Semaine</th>
-                @for (col of phase.columns; track col) {
-                  <th>{{ col }}</th>
-                }
-              </tr>
-            </thead>
-            <tbody>
-              @for (week of phase.weeks; track week.id) {
-                <tr
-                  [class.is-current-week]="week.id === currentWeekId"
-                  [class.is-highlighted]="week.id === currentWeekId && highlightCurrentWeek()"
-                >
-                  <td class="week-cell">
-                    <div class="week-id">
-                      {{ week.id }}
-                      @if (week.id === currentWeekId) {
-                        <span class="current-chip">Actuelle</span>
-                      }
-                    </div>
-                    <div class="week-range">{{ week.dateRange }}</div>
-                  </td>
-                  @for (session of week.sessions; track session.label) {
-                    <td>
-                      <div class="cell-check">
-                        <input
-                          type="checkbox"
-                          [checked]="tracking.entry(trackingKey(phase.id, week.id, session.label)).done"
-                          (change)="tracking.toggleDone(trackingKey(phase.id, week.id, session.label))"
-                          [attr.aria-label]="'Séance faite : ' + session.content"
-                        />
-                        @if (repCount(session.content); as total) {
-                          <button
-                            type="button"
-                            class="cell-session"
-                            (click)="openCounter(phase.id, week.id, session)"
-                          >
-                            {{ session.content }}
-                            <span class="rep-badge"
-                              >{{ doneReps(phase.id, week.id, session.label) }}/{{ total }}</span
-                            >
-                          </button>
-                        } @else {
-                          <span class="cell-session cell-session--plain">{{ session.content }}</span>
-                        }
-                      </div>
-                    </td>
-                  }
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    }
+    <app-phase-weeks-table
+      [phases]="program.phases"
+      [currentWeekId]="currentWeekId"
+      [initialPhaseId]="initialPhaseId"
+      [highlightCurrentWeek]="highlightCurrentWeek()"
+      (count)="openCounter($event.phaseId, $event.weekId, $event.session)"
+    />
   </div>
 
   <div class="card">
