@@ -50,12 +50,17 @@ describe('guessCurrentRunningWeekId', () => {
 });
 
 describe('guessCurrentSwimPhaseId', () => {
-  it('picks "decouverte" in June', () => {
+  it('falls back to the first phase before the program starts', () => {
+    // Swimming starts in July, so June is ahead of every phase.
     expect(guessCurrentSwimPhaseId(SWIMMING_PROGRAM, new Date(2026, 5, 20))).toBe('decouverte');
   });
 
-  it('picks "base-technique" in July', () => {
-    expect(guessCurrentSwimPhaseId(SWIMMING_PROGRAM, new Date(2026, 6, 12))).toBe(
+  it('picks "decouverte" in July', () => {
+    expect(guessCurrentSwimPhaseId(SWIMMING_PROGRAM, new Date(2026, 6, 12))).toBe('decouverte');
+  });
+
+  it('picks "base-technique" in August', () => {
+    expect(guessCurrentSwimPhaseId(SWIMMING_PROGRAM, new Date(2026, 7, 10))).toBe(
       'base-technique'
     );
   });
