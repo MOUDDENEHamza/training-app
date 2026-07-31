@@ -57,8 +57,11 @@ naturally each week.
 ### `src/app/shared/rep-counter-sheet/`
 A presentational standalone component that does not inject `TrackingService`.
 
-- Inputs: `title` (session label), `detail` (session content), `total` (N), `count` (current).
-- Outputs: `increment`, `undo`, `close`.
+- Inputs: `label` (session label), `detail` (session content), `total` (N), `count` (current).
+- Outputs: `increment`, `undo`, `closed`.
+
+`label` rather than `title`, and `closed` rather than `close`, to avoid colliding with the native
+`title` attribute and `close` event.
 
 State lives in the running page, which reads and writes the service. Keeping the sheet dumb makes
 it testable in isolation and lets the swimming page reuse it later without changing its code.
