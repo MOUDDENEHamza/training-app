@@ -1,0 +1,23 @@
+<div class="sheet-backdrop" (click)="closed.emit()"></div>
+
+<div class="sheet" role="dialog" aria-modal="true" [attr.aria-label]="label">
+  <button type="button" class="sheet__close" (click)="closed.emit()" aria-label="Fermer">
+    &times;
+  </button>
+
+  <p class="sheet__label">{{ label }}</p>
+  <p class="sheet__detail">{{ detail }}</p>
+
+  <div class="sheet__count" aria-live="polite">
+    <span class="sheet__count-done">{{ count }}</span>
+    <span class="sheet__count-total">/ {{ total }}</span>
+  </div>
+
+  <button type="button" class="sheet__primary" [disabled]="isComplete" (click)="increment.emit()">
+    {{ isComplete ? 'Séance terminée' : 'Répétition faite' }}
+  </button>
+
+  <button type="button" class="sheet__undo" [disabled]="count === 0" (click)="undo.emit()">
+    Annuler la dernière
+  </button>
+</div>

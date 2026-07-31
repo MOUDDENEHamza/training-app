@@ -1,0 +1,102 @@
+.sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: rgba(20, 22, 26, 0.55);
+}
+
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 21;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 26px 20px calc(22px + env(safe-area-inset-bottom));
+  background: var(--color-surface);
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+  box-shadow: 0 -8px 40px rgba(20, 22, 26, 0.18);
+
+  &__close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    border: none;
+    background: none;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--color-text-faint);
+    cursor: pointer;
+  }
+
+  &__label {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  &__detail {
+    margin: 4px 0 20px;
+    color: var(--color-text-muted);
+    font-size: 0.88rem;
+  }
+
+  &__count {
+    margin-bottom: 22px;
+    text-align: center;
+    font-family: var(--font-display);
+  }
+
+  &__count-done {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-running);
+  }
+
+  &__count-total {
+    margin-left: 6px;
+    font-size: 1.5rem;
+    color: var(--color-text-faint);
+  }
+
+  &__primary {
+    width: 100%;
+    min-height: 56px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: var(--color-running);
+    color: #ffffff;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+
+    &:disabled {
+      background: var(--color-border);
+      color: var(--color-text-faint);
+      cursor: default;
+    }
+  }
+
+  &__undo {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    margin-top: 10px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    color: var(--color-text-muted);
+    font-family: inherit;
+    font-size: 0.88rem;
+    cursor: pointer;
+
+    &:disabled {
+      color: var(--color-text-faint);
+      cursor: default;
+    }
+  }
+}
