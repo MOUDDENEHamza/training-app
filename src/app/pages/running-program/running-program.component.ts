@@ -6,6 +6,8 @@ import { TrackingService } from '../../services/tracking.service';
 import { guessCurrentRunningWeekId } from '../../utils/date-guess';
 import { daysUntil, runningWeekProgress } from '../../utils/program-progress';
 import { parseRepCount } from '../../utils/rep-count';
+import { PaceCheck, paceChecks } from '../../utils/pace-check';
+import { formatRaceTime } from '../../utils/race-time';
 import { resolveTodaysSession } from '../../utils/todays-session';
 import { IconComponent } from '../../shared/icon/icon.component';
 import { RepCounterSheetComponent } from '../../shared/rep-counter-sheet/rep-counter-sheet.component';
@@ -108,6 +110,18 @@ export class RunningProgramComponent {
       content: today.content,
       total,
     });
+  }
+
+  /** The most recent recorded benchmark, for the stats tile. */
+  latestCheck(): PaceCheck | null {
+    const checks = paceChecks(this.program, (phaseId, weekId, label) =>
+      this.tracking.entry(runningTrackingKey(phaseId, weekId, label)).actual ?? ''
+    );
+    return checks.length ? checks[checks.length - 1] : null;
+  }
+
+  formatTime(seconds: number): string {
+    return formatRaceTime(seconds);
   }
 
   closeCounter(): void {

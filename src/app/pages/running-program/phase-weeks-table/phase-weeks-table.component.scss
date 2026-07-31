@@ -111,3 +111,36 @@
   gap: 7px;
   font-size: 0.86rem;
 }
+
+.cell-actual {
+  width: 100%;
+  margin-top: 6px;
+  padding: 4px 7px;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-surface);
+  font-family: inherit;
+  font-size: 0.78rem;
+  color: var(--color-text);
+
+  &::placeholder {
+    color: var(--color-text-faint);
+  }
+}
+
+.pace-check {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin-top: 5px;
+  font-size: 0.74rem;
+  color: var(--color-green);
+
+  .is-behind {
+    color: var(--color-current);
+  }
+
+  &__half {
+    color: var(--color-text-muted);
+  }
+}

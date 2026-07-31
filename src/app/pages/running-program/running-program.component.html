@@ -25,6 +25,15 @@
         <div class="stat-tile__label">jours avant le semi</div>
       </div>
     </div>
+    @if (latestCheck(); as check) {
+      <div class="stat-tile stat-tile--running">
+        <span class="stat-tile__icon"><app-icon name="trending-up" [size]="16" /></span>
+        <div>
+          <div class="stat-tile__value">{{ formatTime(check.halfSeconds) }}</div>
+          <div class="stat-tile__label">à l'allure du test {{ check.distanceKm }} km</div>
+        </div>
+      </div>
+    }
   </div>
 
   @if (currentWeek; as current) {
@@ -39,7 +48,7 @@
   <div class="card" id="phases">
     <h2>Phases d'entraînement</h2>
     <app-phase-weeks-table
-      [phases]="program.phases"
+      [program]="program"
       [currentWeekId]="currentWeekId"
       [initialPhaseId]="initialPhaseId"
       [highlightCurrentWeek]="highlightCurrentWeek()"

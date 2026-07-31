@@ -65,6 +65,21 @@
                       <span class="cell-session cell-session--plain">{{ session.content }}</span>
                     }
                   </div>
+                  <input
+                    class="cell-actual"
+                    type="text"
+                    placeholder="réel…"
+                    [value]="actualFor(phase.id, week.id, session.label)"
+                    (change)="onActualInput(phase.id, week.id, session.label, $event)"
+                  />
+                  @if (paceCheck(session.content, phase.id, week.id, session.label); as check) {
+                    <div class="pace-check">
+                      <span [class.is-behind]="check.deltaSeconds > 0">{{ deltaLabel(check) }}</span>
+                      <span class="pace-check__half"
+                        >à cette allure : {{ formatTime(check.halfSeconds) }}</span
+                      >
+                    </div>
+                  }
                 </td>
               }
             </tr>
