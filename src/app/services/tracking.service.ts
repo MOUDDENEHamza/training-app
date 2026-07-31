@@ -3,6 +3,7 @@ import { Injectable, signal } from '@angular/core';
 export interface TrackingEntry {
   done: boolean;
   actual?: string;
+  reps?: number;
 }
 
 const STORAGE_KEY = 'training-app:tracking';
@@ -33,8 +34,18 @@ export class TrackingService {
   }
 
   toggleDone(key: string): void {
+    this.setDone(key, !this.entry(key).done);
+  }
+
+  setDone(key: string, done: boolean): void {
     const current = this.entry(key);
-    this.state.update((s) => ({ ...s, [key]: { ...current, done: !current.done } }));
+    this.state.update((s) => ({ ...s, [key]: { ...current, done } }));
+    safePersist(this.state());
+  }
+
+  setReps(key: string, reps: number): void {
+    const current = this.entry(key);
+    this.state.update((s) => ({ ...s, [key]: { ...current, reps } }));
     safePersist(this.state());
   }
 

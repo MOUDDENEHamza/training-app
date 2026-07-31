@@ -33,6 +33,45 @@ describe('TrackingService', () => {
     expect(entry.done).toBeFalse();
   });
 
+  it('stores a rep count without affecting the done state', () => {
+    service.setReps('running:developpement:S5:Séance 2', 3);
+    const entry = service.entry('running:developpement:S5:Séance 2');
+    expect(entry.reps).toBe(3);
+    expect(entry.done).toBeFalse();
+  });
+
+  it('sets the done state explicitly in both directions', () => {
+    service.setDone('running:developpement:S5:Séance 2', true);
+    expect(service.entry('running:developpement:S5:Séance 2').done).toBeTrue();
+
+    service.setDone('running:developpement:S5:Séance 2', false);
+    expect(service.entry('running:developpement:S5:Séance 2').done).toBeFalse();
+  });
+
+  it('persists the rep count across service instances', () => {
+    service.setReps('running:developpement:S5:Séance 2', 4);
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({});
+    const reloaded = TestBed.inject(TrackingService);
+    expect(reloaded.entry('running:developpement:S5:Séance 2').reps).toBe(4);
+  });
+
+  it('reads an entry stored before reps existed as having no reps', () => {
+    localStorage.setItem(
+      'training-app:tracking',
+      JSON.stringify({ 'legacy:key': { done: true, actual: '42 min' } })
+    );
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({});
+    const reloaded = TestBed.inject(TrackingService);
+    const entry = reloaded.entry('legacy:key');
+    expect(entry.done).toBeTrue();
+    expect(entry.actual).toBe('42 min');
+    expect(entry.reps).toBeUndefined();
+  });
+
   it('persists entries to localStorage across service instances', () => {
     service.toggleDone('running:base-aerobie:S1:Endurance');
     service.setActual('running:base-aerobie:S1:Endurance', '42 min');
