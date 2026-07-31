@@ -36,6 +36,22 @@ describe('WeeklyOverviewComponent', () => {
     expect(todayCols[0].textContent).toContain("Aujourd'hui");
   });
 
+  it("puts the quick-entry parameter only on today's running tag", () => {
+    const fixture = TestBed.createComponent(WeeklyOverviewComponent);
+    fixture.detectChanges();
+
+    const columns: HTMLElement[] = Array.from(
+      fixture.nativeElement.querySelectorAll('.week-grid .day-col')
+    );
+    const withRun = columns.filter((col) => col.querySelector('a.tag--running'));
+    expect(withRun.length).toBe(3);
+
+    for (const col of withRun) {
+      const href = col.querySelector('a.tag--running')!.getAttribute('href') ?? '';
+      expect(href.includes('session=today')).toBe(col.classList.contains('is-today'));
+    }
+  });
+
   it('shows accurate weekly session counts in the stats row', () => {
     const fixture = TestBed.createComponent(WeeklyOverviewComponent);
     fixture.detectChanges();
