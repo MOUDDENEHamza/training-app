@@ -5,6 +5,9 @@ import { RUNNING_PROGRAM } from '../../data/running-program.data';
 import { guessCurrentRunningWeekId } from '../../utils/date-guess';
 
 describe('RunningProgramComponent', () => {
+  beforeEach(() => localStorage.clear());
+  afterEach(() => localStorage.clear());
+
   async function setup() {
     await TestBed.configureTestingModule({
       imports: [RunningProgramComponent],
@@ -44,5 +47,73 @@ describe('RunningProgramComponent', () => {
     expect(currentRow).toBeTruthy();
     expect(currentRow.textContent).toContain(currentWeekId);
     expect(currentRow.textContent).toContain('Actuelle');
+  });
+
+  it('counts repetitions through the sheet for an interval session', async () => {
+    const fixture = await setup();
+    const tabs: HTMLButtonElement[] = Array.from(
+      fixture.nativeElement.querySelectorAll('.phase-tab')
+    );
+    tabs[0].click();
+    fixture.detectChanges();
+
+    // Phase 1 / S1 / séance 2 is "6×3 min allure 10 km (3'58) récup 2'" → 6 repetitions.
+    const trigger: HTMLButtonElement = fixture.nativeElement.querySelector('button.cell-session');
+    expect(trigger.textContent).toContain('6×3 min');
+    expect(trigger.textContent).toContain('0/6');
+
+    trigger.click();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('app-rep-counter-sheet')).toBeTruthy();
+
+    fixture.nativeElement.querySelector('.sheet__primary').click();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.sheet__count-done').textContent.trim()).toBe('1');
+
+    fixture.nativeElement.querySelector('.sheet__undo').click();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.sheet__count-done').textContent.trim()).toBe('0');
+  });
+
+  it('marks the session done when the last repetition is counted', async () => {
+    const fixture = await setup();
+    const tabs: HTMLButtonElement[] = Array.from(
+      fixture.nativeElement.querySelectorAll('.phase-tab')
+    );
+    tabs[0].click();
+    fixture.detectChanges();
+
+    fixture.nativeElement.querySelector('button.cell-session').click();
+    fixture.detectChanges();
+
+    for (let i = 0; i < 6; i++) {
+      fixture.nativeElement.querySelector('.sheet__primary').click();
+      fixture.detectChanges();
+    }
+
+    const primary: HTMLButtonElement = fixture.nativeElement.querySelector('.sheet__primary');
+    expect(primary.disabled).toBeTrue();
+
+    fixture.nativeElement.querySelector('.sheet__close').click();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('app-rep-counter-sheet')).toBeNull();
+
+    const checkbox: HTMLInputElement = fixture.nativeElement.querySelectorAll(
+      '.cell-check input[type="checkbox"]'
+    )[1];
+    expect(checkbox.checked).toBeTrue();
+  });
+
+  it('shows a continuous session as plain text with no counter', async () => {
+    const fixture = await setup();
+    const tabs: HTMLButtonElement[] = Array.from(
+      fixture.nativeElement.querySelectorAll('.phase-tab')
+    );
+    tabs[0].click();
+    fixture.detectChanges();
+
+    const plain = fixture.nativeElement.querySelector('.cell-session--plain');
+    expect(plain.textContent).toContain('40 min EF');
+    expect(plain.tagName).toBe('SPAN');
   });
 });

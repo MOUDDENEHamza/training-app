@@ -75,14 +75,28 @@
                   </td>
                   @for (session of week.sessions; track session.label) {
                     <td>
-                      <label class="cell-check">
+                      <div class="cell-check">
                         <input
                           type="checkbox"
                           [checked]="tracking.entry(trackingKey(phase.id, week.id, session.label)).done"
                           (change)="tracking.toggleDone(trackingKey(phase.id, week.id, session.label))"
+                          [attr.aria-label]="'Séance faite : ' + session.content"
                         />
-                        {{ session.content }}
-                      </label>
+                        @if (repCount(session.content); as total) {
+                          <button
+                            type="button"
+                            class="cell-session"
+                            (click)="openCounter(phase.id, week.id, session)"
+                          >
+                            {{ session.content }}
+                            <span class="rep-badge"
+                              >{{ doneReps(phase.id, week.id, session.label) }}/{{ total }}</span
+                            >
+                          </button>
+                        } @else {
+                          <span class="cell-session cell-session--plain">{{ session.content }}</span>
+                        }
+                      </div>
                     </td>
                   }
                 </tr>
@@ -152,4 +166,16 @@
       </table>
     </div>
   </div>
+
+  @if (openSession(); as open) {
+    <app-rep-counter-sheet
+      [label]="open.label"
+      [detail]="open.content"
+      [total]="open.total"
+      [count]="openSessionCount()"
+      (increment)="incrementRep()"
+      (undo)="undoRep()"
+      (closed)="closeCounter()"
+    />
+  }
 </div>
