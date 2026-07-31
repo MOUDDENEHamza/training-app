@@ -58,7 +58,10 @@ describe('RunningProgramComponent', () => {
     fixture.detectChanges();
 
     // Phase 1 / S1 / séance 2 is "6×3 min allure 10 km (3'58) récup 2'" → 6 repetitions.
-    const trigger: HTMLButtonElement = fixture.nativeElement.querySelector('button.cell-session');
+    // Scoped to the table: the Semaine en cours card reuses the same classes above it.
+    const trigger: HTMLButtonElement = fixture.nativeElement.querySelector(
+      '.weeks-table button.cell-session'
+    );
     expect(trigger.textContent).toContain('6×3 min');
     expect(trigger.textContent).toContain('0/6');
 
@@ -83,7 +86,7 @@ describe('RunningProgramComponent', () => {
     tabs[0].click();
     fixture.detectChanges();
 
-    fixture.nativeElement.querySelector('button.cell-session').click();
+    fixture.nativeElement.querySelector('.weeks-table button.cell-session').click();
     fixture.detectChanges();
 
     for (let i = 0; i < 6; i++) {
@@ -112,8 +115,60 @@ describe('RunningProgramComponent', () => {
     tabs[0].click();
     fixture.detectChanges();
 
-    const plain = fixture.nativeElement.querySelector('.cell-session--plain');
+    const plain = fixture.nativeElement.querySelector('.weeks-table .cell-session--plain');
     expect(plain.textContent).toContain('40 min EF');
     expect(plain.tagName).toBe('SPAN');
+  });
+
+  it('lists the current week sessions in the Semaine en cours card', async () => {
+    const fixture = await setup();
+    const currentWeekId = guessCurrentRunningWeekId(RUNNING_PROGRAM);
+    const phase = RUNNING_PROGRAM.phases.find((p) => p.weeks.some((w) => w.id === currentWeekId))!;
+    const week = phase.weeks.find((w) => w.id === currentWeekId)!;
+
+    const card = fixture.nativeElement.querySelector('.week-card');
+    expect(card).toBeTruthy();
+    expect(card.textContent).toContain(currentWeekId);
+    expect(card.textContent).toContain(week.dateRange);
+    for (const session of week.sessions) {
+      expect(card.textContent).toContain(session.label);
+    }
+  });
+
+  it('opens the counter from a card row that has repetitions', async () => {
+    const fixture = await setup();
+    const trigger: HTMLButtonElement = fixture.nativeElement.querySelector(
+      '.week-card button.cell-session'
+    );
+    expect(trigger).toBeTruthy();
+
+    trigger.click();
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('app-rep-counter-sheet')).toBeTruthy();
+  });
+
+  it('renders no sheet on a plain visit', async () => {
+    const fixture = await setup();
+    expect(fixture.nativeElement.querySelector('app-rep-counter-sheet')).toBeNull();
+  });
+
+  it('opens the sheet for today when today has repetitions', async () => {
+    const fixture = await setup();
+    // Wednesday 2026-06-17 is in S1: "6×3 min allure 10 km (3'58) récup 2'" → 6 repetitions.
+    fixture.componentInstance.openTodaysSession(new Date(2026, 5, 17));
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('app-rep-counter-sheet')).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.sheet__detail').textContent).toContain('6×3 min');
+    expect(fixture.nativeElement.querySelector('.sheet__count-total').textContent).toContain('6');
+  });
+
+  it('opens nothing for a day whose session has no repetitions', async () => {
+    const fixture = await setup();
+    // Monday 2026-06-15 is in S1: "40 min EF" — nothing to count.
+    fixture.componentInstance.openTodaysSession(new Date(2026, 5, 15));
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('app-rep-counter-sheet')).toBeNull();
   });
 });

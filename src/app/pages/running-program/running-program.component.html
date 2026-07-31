@@ -27,6 +27,40 @@
     </div>
   </div>
 
+  @if (currentWeek; as current) {
+    <div class="card week-card">
+      <h2>Semaine en cours — {{ current.week.id }}</h2>
+      <p class="week-card__range">{{ current.week.dateRange }}</p>
+
+      <ul class="week-card__list">
+        @for (session of current.week.sessions; track session.label) {
+          <li class="week-card__item" [class.is-today]="session.label === todaysSessionLabel">
+            <div class="week-card__label">
+              {{ session.label }}
+              @if (session.label === todaysSessionLabel) {
+                <span class="current-chip">Aujourd'hui</span>
+              }
+            </div>
+            @if (repCount(session.content); as total) {
+              <button
+                type="button"
+                class="cell-session"
+                (click)="openCounter(current.phaseId, current.week.id, session)"
+              >
+                {{ session.content }}
+                <span class="rep-badge"
+                  >{{ doneReps(current.phaseId, current.week.id, session.label) }}/{{ total }}</span
+                >
+              </button>
+            } @else {
+              <span class="cell-session cell-session--plain">{{ session.content }}</span>
+            }
+          </li>
+        }
+      </ul>
+    </div>
+  }
+
   <div class="card" id="phases">
     <h2>Phases d'entraînement</h2>
 

@@ -6,12 +6,19 @@ import { TrackingService } from '../../services/tracking.service';
 import { guessCurrentRunningWeekId } from '../../utils/date-guess';
 import { daysUntil, runningWeekProgress } from '../../utils/program-progress';
 import { parseRepCount } from '../../utils/rep-count';
+import { resolveTodaysSession } from '../../utils/todays-session';
 import { IconComponent } from '../../shared/icon/icon.component';
 import { RepCounterSheetComponent } from '../../shared/rep-counter-sheet/rep-counter-sheet.component';
 
 function phaseIdForWeek(program: typeof RUNNING_PROGRAM, weekId: string): string {
   const phase = program.phases.find((p) => p.weeks.some((w) => w.id === weekId));
   return phase?.id ?? program.phases[0].id;
+}
+
+function weekById(program: typeof RUNNING_PROGRAM, weekId: string) {
+  const phase = program.phases.find((p) => p.weeks.some((w) => w.id === weekId));
+  const week = phase?.weeks.find((w) => w.id === weekId);
+  return phase && week ? { phaseId: phase.id, week } : null;
 }
 
 interface OpenSession {
@@ -38,6 +45,8 @@ export class RunningProgramComponent {
   readonly activePhaseId = signal(phaseIdForWeek(this.program, this.currentWeekId));
   readonly highlightCurrentWeek = signal(false);
   readonly openSession = signal<OpenSession | null>(null);
+  readonly currentWeek = weekById(this.program, this.currentWeekId);
+  readonly todaysSessionLabel = resolveTodaysSession(this.program)?.label ?? null;
 
   readonly progress = runningWeekProgress(this.program, this.currentWeekId);
   readonly daysToRace = daysUntil(RACE_DATE);
@@ -49,6 +58,9 @@ export class RunningProgramComponent {
     if (this.route.snapshot.fragment === 'phases') {
       this.highlightCurrentWeek.set(true);
       setTimeout(() => this.highlightCurrentWeek.set(false), 2200);
+    }
+    if (this.route.snapshot.queryParamMap.get('session') === 'today') {
+      this.openTodaysSession();
     }
   }
 
@@ -82,6 +94,25 @@ export class RunningProgramComponent {
       weekId,
       label: session.label,
       content: session.content,
+      total,
+    });
+  }
+
+  /** Opens the counter for today's session, when it can be resolved and has repetitions. */
+  openTodaysSession(todayInput: Date = new Date()): void {
+    const today = resolveTodaysSession(this.program, todayInput);
+    if (!today) {
+      return;
+    }
+    const total = parseRepCount(today.content);
+    if (total === null) {
+      return;
+    }
+    this.openSession.set({
+      phaseId: today.phaseId,
+      weekId: today.weekId,
+      label: today.label,
+      content: today.content,
       total,
     });
   }

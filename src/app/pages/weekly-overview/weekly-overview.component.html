@@ -57,7 +57,12 @@
 
           @if (dayEntry.cardio) {
             @if (dayEntry.cardio.running) {
-              <a class="tag tag--block tag--running" routerLink="/running" fragment="phases">
+              <a
+                class="tag tag--block tag--running"
+                routerLink="/running"
+                fragment="phases"
+                [queryParams]="{ session: 'today' }"
+              >
                 <app-icon name="running" [size]="13" />
                 Course
               </a>
