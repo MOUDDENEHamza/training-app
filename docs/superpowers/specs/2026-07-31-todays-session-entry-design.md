@@ -91,11 +91,16 @@ already used for the current week and the current day.
 - Wednesday 2026-10-21 (S19, phase 4) → `Séance 2`, resolved by position
 
 `running-program.component.spec.ts`:
-- arriving with `session=today` on a date whose session has repetitions renders the sheet
-- arriving without the parameter renders no sheet
+- `openTodaysSession(date)` on a Wednesday renders the sheet with six repetitions
+- `openTodaysSession(date)` on a Monday, whose session is `40 min EF`, renders no sheet
+- a plain visit renders no sheet
 - the "Semaine en cours" card lists the current week's sessions and its rows open the counter
 
-The component test provides a stub `ActivatedRoute` so the query parameter can be set.
+`openTodaysSession` is public and takes an optional date, following the convention of `daysUntil`
+and `guessCurrentRunningWeekId`. Two reasons: stubbing `ActivatedRoute` well enough for `RouterLink`
+to keep working is brittle, and a test relying on the real clock would flip with the weekday — today
+is a Friday, which resolves to a long run with nothing to count. The one-line query-parameter read in
+the constructor is verified in the browser instead.
 
 ## Known debt (not addressed here)
 `RunningProgramComponent` now carries tracking, phase tabs, row highlighting, the rep counter, and
