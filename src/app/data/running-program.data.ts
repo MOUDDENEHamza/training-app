@@ -6,6 +6,7 @@ export const RACE_DATE = new Date(2026, 10, 15);
 export const RUNNING_PROGRAM: RunningProgram = {
   objective:
     "Objectif : tenir 4:07/km pendant 21,1 km. Le programme se découpe en 3 phases + affûtage. 3 séances de course par semaine intégrées au planning muscu/natation.",
+  targetTime: '1h26',
   paces: [
     {
       allure: 'EF (Endurance Fondamentale)',

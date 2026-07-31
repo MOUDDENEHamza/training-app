@@ -90,6 +90,7 @@ export interface SplitTarget {
 
 export interface RunningProgram {
   objective: string;
+  targetTime: string;
   paces: PaceRow[];
   phases: RunningPhase[];
   raceStrategy: string;
