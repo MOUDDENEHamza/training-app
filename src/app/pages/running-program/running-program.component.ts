@@ -9,6 +9,8 @@ import { parseRepCount } from '../../utils/rep-count';
 import { resolveTodaysSession } from '../../utils/todays-session';
 import { IconComponent } from '../../shared/icon/icon.component';
 import { RepCounterSheetComponent } from '../../shared/rep-counter-sheet/rep-counter-sheet.component';
+import { WeekSessionsCardComponent } from './week-sessions-card/week-sessions-card.component';
+import { runningTrackingKey } from './running-tracking-key';
 
 function phaseIdForWeek(program: typeof RUNNING_PROGRAM, weekId: string): string {
   const phase = program.phases.find((p) => p.weeks.some((w) => w.id === weekId));
@@ -32,7 +34,7 @@ interface OpenSession {
 @Component({
   selector: 'app-running-program',
   standalone: true,
-  imports: [RouterLink, IconComponent, RepCounterSheetComponent],
+  imports: [RouterLink, IconComponent, RepCounterSheetComponent, WeekSessionsCardComponent],
   templateUrl: './running-program.component.html',
   styleUrl: './running-program.component.scss',
 })
@@ -73,7 +75,7 @@ export class RunningProgramComponent {
   }
 
   trackingKey(phaseId: string, weekId: string, label: string): string {
-    return `running:${phaseId}:${weekId}:${label}`;
+    return runningTrackingKey(phaseId, weekId, label);
   }
 
   repCount(content: string): number | null {

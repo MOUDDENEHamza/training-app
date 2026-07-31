@@ -1,0 +1,25 @@
+<div class="card week-card">
+  <h2>Semaine en cours — {{ week.id }}</h2>
+  <p class="week-card__range">{{ week.dateRange }}</p>
+
+  <ul class="week-card__list">
+    @for (session of week.sessions; track session.label) {
+      <li class="week-card__item" [class.is-today]="session.label === todaysLabel">
+        <div class="week-card__label">
+          {{ session.label }}
+          @if (session.label === todaysLabel) {
+            <span class="current-chip">Aujourd'hui</span>
+          }
+        </div>
+        @if (repCount(session.content); as total) {
+          <button type="button" class="cell-session" (click)="count.emit(session)">
+            {{ session.content }}
+            <span class="rep-badge">{{ doneReps(session.label) }}/{{ total }}</span>
+          </button>
+        } @else {
+          <span class="cell-session cell-session--plain">{{ session.content }}</span>
+        }
+      </li>
+    }
+  </ul>
+</div>

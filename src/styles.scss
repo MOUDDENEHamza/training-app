@@ -170,6 +170,41 @@ a:focus-visible {
   white-space: nowrap;
 }
 
+/* A tappable session line and its rep badge. Shared by the running week card and
+   the phase weeks table, which are separate components. */
+.cell-session {
+  display: inline-flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  text-align: left;
+  color: var(--color-accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  text-underline-offset: 3px;
+
+  &--plain {
+    color: inherit;
+    cursor: default;
+    text-decoration: none;
+  }
+}
+
+.rep-badge {
+  flex-shrink: 0;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
 .stats-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));

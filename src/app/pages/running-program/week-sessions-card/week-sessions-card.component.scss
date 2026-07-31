@@ -1,0 +1,42 @@
+.week-card {
+  &__range {
+    margin: -6px 0 16px;
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+  }
+
+  &__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__item {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &.is-today {
+      padding-left: 12px;
+      box-shadow: inset 3px 0 0 var(--color-current-border);
+    }
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 4px;
+    font-weight: 600;
+    font-size: 0.84rem;
+    color: var(--color-text-muted);
+  }
+}
+
+.current-chip {
+  margin-left: 6px;
+}
