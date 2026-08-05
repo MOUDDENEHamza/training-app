@@ -19,6 +19,16 @@
   border-top-right-radius: var(--radius-lg);
   box-shadow: 0 -8px 40px rgba(20, 22, 26, 0.18);
 
+  /* Bottom sheet on a phone, where the thumb is; a centred dialog once there is room. */
+  @media (min-width: 620px) {
+    bottom: auto;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-bottom: 26px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 24px 60px rgba(20, 22, 26, 0.22);
+  }
+
   &__close {
     position: absolute;
     top: 8px;

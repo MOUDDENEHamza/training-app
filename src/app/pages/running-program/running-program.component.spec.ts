@@ -152,23 +152,9 @@ describe('RunningProgramComponent', () => {
     expect(fixture.nativeElement.querySelector('app-rep-counter-sheet')).toBeNull();
   });
 
-  it('opens the sheet for today when today has repetitions', async () => {
+  it('still marks today in the current-week card without opening the counter', async () => {
     const fixture = await setup();
-    // Wednesday 2026-06-17 is in S1: "6×3 min allure 10 km (3'58) récup 2'" → 6 repetitions.
-    fixture.componentInstance.openTodaysSession(new Date(2026, 5, 17));
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.querySelector('app-rep-counter-sheet')).toBeTruthy();
-    expect(fixture.nativeElement.querySelector('.sheet__detail').textContent).toContain('6×3 min');
-    expect(fixture.nativeElement.querySelector('.sheet__count-total').textContent).toContain('6');
-  });
-
-  it('opens nothing for a day whose session has no repetitions', async () => {
-    const fixture = await setup();
-    // Monday 2026-06-15 is in S1: "40 min EF" — nothing to count.
-    fixture.componentInstance.openTodaysSession(new Date(2026, 5, 15));
-    fixture.detectChanges();
-
     expect(fixture.nativeElement.querySelector('app-rep-counter-sheet')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.week-card')).toBeTruthy();
   });
 });

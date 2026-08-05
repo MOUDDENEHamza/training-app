@@ -1,5 +1,11 @@
 # Today's Running Session — Quick Entry Design
 
+> **Partly reversed on 2026-07-31.** The automatic opening described below was removed at the
+> athlete's request: arriving on the running page and being met by a modal was unwanted. The
+> `?session=today` parameter and `openTodaysSession` are gone. What remains is the "Semaine en
+> cours" card, its "Aujourd'hui" marker, and the `#phases` scroll — the counter is opened by tapping
+> a session. The resolution logic in `todays-session.ts` still backs the "Aujourd'hui" marker.
+
 ## Purpose
 Reaching the rep counter mid-session currently costs: open the app → Course → pick the phase tab →
 find the week row → scroll the table horizontally → tap the session. Since the screen locks between

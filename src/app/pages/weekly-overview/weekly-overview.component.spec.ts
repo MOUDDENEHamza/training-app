@@ -36,19 +36,19 @@ describe('WeeklyOverviewComponent', () => {
     expect(todayCols[0].textContent).toContain("Aujourd'hui");
   });
 
-  it("puts the quick-entry parameter only on today's running tag", () => {
+  it('links running days to the phases section without opening the counter', () => {
     const fixture = TestBed.createComponent(WeeklyOverviewComponent);
     fixture.detectChanges();
 
-    const columns: HTMLElement[] = Array.from(
-      fixture.nativeElement.querySelectorAll('.week-grid .day-col')
+    const links: HTMLAnchorElement[] = Array.from(
+      fixture.nativeElement.querySelectorAll('.week-grid a.tag--running')
     );
-    const withRun = columns.filter((col) => col.querySelector('a.tag--running'));
-    expect(withRun.length).toBe(3);
+    expect(links.length).toBe(3);
 
-    for (const col of withRun) {
-      const href = col.querySelector('a.tag--running')!.getAttribute('href') ?? '';
-      expect(href.includes('session=today')).toBe(col.classList.contains('is-today'));
+    for (const link of links) {
+      const href = link.getAttribute('href') ?? '';
+      expect(href).toContain('#phases');
+      expect(href).not.toContain('session=today');
     }
   });
 

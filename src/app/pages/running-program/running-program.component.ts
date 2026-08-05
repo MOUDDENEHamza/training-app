@@ -70,9 +70,6 @@ export class RunningProgramComponent {
       this.highlightCurrentWeek.set(true);
       setTimeout(() => this.highlightCurrentWeek.set(false), 2200);
     }
-    if (this.route.snapshot.queryParamMap.get('session') === 'today') {
-      this.openTodaysSession();
-    }
   }
 
   private doneReps(phaseId: string, weekId: string, label: string): number {
@@ -89,25 +86,6 @@ export class RunningProgramComponent {
       weekId,
       label: session.label,
       content: session.content,
-      total,
-    });
-  }
-
-  /** Opens the counter for today's session, when it can be resolved and has repetitions. */
-  openTodaysSession(todayInput: Date = new Date()): void {
-    const today = resolveTodaysSession(this.program, todayInput);
-    if (!today) {
-      return;
-    }
-    const total = parseRepCount(today.content);
-    if (total === null) {
-      return;
-    }
-    this.openSession.set({
-      phaseId: today.phaseId,
-      weekId: today.weekId,
-      label: today.label,
-      content: today.content,
       total,
     });
   }
