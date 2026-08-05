@@ -158,3 +158,36 @@ h1 {
 .muted {
   color: var(--color-text-faint);
 }
+
+.session-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.reset-done {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  background: var(--color-surface);
+  font-family: inherit;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+
+  &:hover {
+    color: var(--color-text);
+    border-color: var(--color-text-faint);
+  }
+
+  &.is-armed {
+    background: var(--color-strength-soft);
+    border-color: var(--color-strength);
+    color: var(--color-strength);
+    font-weight: 600;
+  }
+}

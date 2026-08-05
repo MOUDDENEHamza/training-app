@@ -72,6 +72,41 @@ describe('TrackingService', () => {
     expect(entry.reps).toBeUndefined();
   });
 
+  it('clears done for every key under a prefix, leaving other prefixes alone', () => {
+    service.setDone('strength:pecs-triceps:dev-couche:S1', true);
+    service.setDone('strength:pecs-triceps:dips:S2', true);
+    service.setDone('strength:jambes:squat:S1', true);
+
+    service.clearDone('strength:pecs-triceps:');
+
+    expect(service.entry('strength:pecs-triceps:dev-couche:S1').done).toBeFalse();
+    expect(service.entry('strength:pecs-triceps:dips:S2').done).toBeFalse();
+    expect(service.entry('strength:jambes:squat:S1').done).toBeTrue();
+  });
+
+  it('keeps recorded actuals and rep counts when clearing done', () => {
+    service.setDone('strength:pecs-triceps:dev-couche:S1', true);
+    service.setActual('strength:pecs-triceps:dev-couche:S1', '5x82kg');
+    service.setReps('strength:pecs-triceps:dev-couche:S1', 3);
+
+    service.clearDone('strength:pecs-triceps:');
+
+    const entry = service.entry('strength:pecs-triceps:dev-couche:S1');
+    expect(entry.done).toBeFalse();
+    expect(entry.actual).toBe('5x82kg');
+    expect(entry.reps).toBe(3);
+  });
+
+  it('persists a cleared prefix across service instances', () => {
+    service.setDone('strength:pecs-triceps:dev-couche:S1', true);
+    service.clearDone('strength:pecs-triceps:');
+
+    TestBed.resetTestingModule();
+    TestBed.configureTestingModule({});
+    const reloaded = TestBed.inject(TrackingService);
+    expect(reloaded.entry('strength:pecs-triceps:dev-couche:S1').done).toBeFalse();
+  });
+
   it('persists entries to localStorage across service instances', () => {
     service.toggleDone('running:base-aerobie:S1:Endurance');
     service.setActual('running:base-aerobie:S1:Endurance', '42 min');

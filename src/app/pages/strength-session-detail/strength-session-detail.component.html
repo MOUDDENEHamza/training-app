@@ -4,10 +4,20 @@
     <p class="eyebrow"><app-icon name="dumbbell" [size]="14" /> {{ s.day }}</p>
     <h1><span class="theme-dot"></span>{{ s.name }}</h1>
     <p class="subtitle">{{ s.intro }}</p>
-    <a class="overview-link" routerLink="/strength">
-      Voir le programme complet, les principes et la progression tractions
-      <app-icon name="chevron-right" [size]="13" />
-    </a>
+    <div class="session-actions">
+      <a class="overview-link" routerLink="/strength">
+        Voir le programme complet, les principes et la progression tractions
+        <app-icon name="chevron-right" [size]="13" />
+      </a>
+      <button
+        type="button"
+        class="reset-done"
+        [class.is-armed]="resetArmed()"
+        (click)="onResetClick()"
+      >
+        {{ resetArmed() ? 'Confirmer ?' : 'Décocher tout' }}
+      </button>
+    </div>
 
     @for (group of s.groups; track group.title) {
       <div class="card">

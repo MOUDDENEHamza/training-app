@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal } from '@angular/core';
+import { Component, computed, inject, signal, Signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { map } from 'rxjs';
@@ -56,5 +56,24 @@ export class StrengthSessionDetailComponent {
   onActualInput(exerciseId: string, week: string, event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.tracking.setActual(this.trackingKey(exerciseId, week), value);
+  }
+
+  /** True once the reset button has been armed by a first tap. */
+  readonly resetArmed = signal(false);
+  private resetTimer?: ReturnType<typeof setTimeout>;
+
+  /**
+   * Two taps to untick the whole session: recovering from a stray tap would mean
+   * re-ticking twenty-odd boxes by hand, so arming it first is worth the extra tap.
+   */
+  onResetClick(): void {
+    if (!this.resetArmed()) {
+      this.resetArmed.set(true);
+      this.resetTimer = setTimeout(() => this.resetArmed.set(false), 4000);
+      return;
+    }
+    clearTimeout(this.resetTimer);
+    this.resetArmed.set(false);
+    this.tracking.clearDone(`strength:${this.sessionId()}:`);
   }
 }

@@ -49,6 +49,23 @@ export class TrackingService {
     safePersist(this.state());
   }
 
+  /**
+   * Unticks every entry whose key starts with the prefix, in one write.
+   * Recorded actuals and rep counts are left untouched — only `done` moves.
+   */
+  clearDone(keyPrefix: string): void {
+    this.state.update((s) => {
+      const next: Record<string, TrackingEntry> = { ...s };
+      for (const key of Object.keys(next)) {
+        if (key.startsWith(keyPrefix) && next[key].done) {
+          next[key] = { ...next[key], done: false };
+        }
+      }
+      return next;
+    });
+    safePersist(this.state());
+  }
+
   setActual(key: string, actual: string): void {
     const current = this.entry(key);
     this.state.update((s) => ({ ...s, [key]: { ...current, actual } }));
