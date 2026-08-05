@@ -152,6 +152,19 @@ describe('RunningProgramComponent', () => {
     expect(fixture.nativeElement.querySelector('app-rep-counter-sheet')).toBeNull();
   });
 
+  it('keeps the wide reference tables inside a horizontally scrolling container', async () => {
+    // Regression guard: these tables carry min-width: 520px. Without a scrolling wrapper they
+    // push the whole page wider than a phone viewport.
+    const fixture = await setup();
+    for (const selector of ['.pace-table', '.splits-table']) {
+      const table: HTMLElement = fixture.nativeElement.querySelector(selector);
+      expect(table).withContext(selector).toBeTruthy();
+      const scroller = table.closest('.table-scroll') as HTMLElement | null;
+      expect(scroller).withContext(`${selector} wrapper`).toBeTruthy();
+      expect(getComputedStyle(scroller!).overflowX).withContext(selector).toBe('auto');
+    }
+  });
+
   it('still marks today in the current-week card without opening the counter', async () => {
     const fixture = await setup();
     expect(fixture.nativeElement.querySelector('app-rep-counter-sheet')).toBeNull();

@@ -170,6 +170,12 @@ a:focus-visible {
   white-space: nowrap;
 }
 
+/* Wraps any table too wide for a phone. Global rather than per-page: four copies of this rule
+   used to drift, and one page lost its copy in a refactor while its template still asked for it. */
+.table-scroll {
+  overflow-x: auto;
+}
+
 /* A tappable session line and its rep badge. Shared by the running week card and
    the phase weeks table, which are separate components. */
 .cell-session {
