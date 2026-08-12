@@ -58,6 +58,24 @@ describe('StrengthSessionDetailComponent', () => {
     expect(compiled.querySelector('a.overview-link')?.getAttribute('href')).toBe('/strength');
   });
 
+  it('names the columns as sets, since "S1" reads just as easily as week 1', async () => {
+    const fixture = await setup('dos-biceps');
+    const headers: string[] = Array.from(
+      fixture.nativeElement.querySelectorAll('.exercise-table thead th') as NodeListOf<HTMLElement>
+    ).map((th) => th.textContent?.trim() ?? '');
+
+    expect(headers).toContain('Série 1');
+    expect(headers).not.toContain('S1');
+  });
+
+  it('shows one column per set for a six-set exercise', async () => {
+    const fixture = await setup('dos-biceps');
+    const row = Array.from(
+      fixture.nativeElement.querySelectorAll('tbody tr') as NodeListOf<HTMLElement>
+    ).find((tr) => tr.textContent?.includes('Tractions poids libre'))!;
+    expect(row.querySelectorAll('input[type="checkbox"]').length).toBe(6);
+  });
+
   it('asks for confirmation before unticking, so one stray tap changes nothing', async () => {
     const fixture = await setup('pecs-triceps');
     const tracking = TestBed.inject(TrackingService);

@@ -44,6 +44,15 @@ export class StrengthSessionDetailComponent {
     return seen;
   }
 
+  /**
+   * Column heading for a set. The stored identifier stays 'S1' — it is part of every tracking
+   * key, so renaming it would orphan the loads already recorded — but 'S1' reads as "semaine 1"
+   * as readily as "série 1", which is what confused the columns for sets in the first place.
+   */
+  seriesLabel(week: string): string {
+    return `Série ${week.replace(/^S/, '')}`;
+  }
+
   plannedValue(group: ExerciseGroup, exerciseId: string, week: string): string | null {
     const exercise = group.exercises.find((e) => e.id === exerciseId);
     return exercise?.weeks.find((w) => w.week === week)?.value ?? null;

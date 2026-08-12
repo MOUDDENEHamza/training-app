@@ -28,7 +28,7 @@
               <tr>
                 <th class="exercise-col">Exercice</th>
                 @for (week of groupWeeks(group); track week) {
-                  <th>{{ week }}</th>
+                  <th>{{ seriesLabel(week) }}</th>
                 }
               </tr>
             </thead>

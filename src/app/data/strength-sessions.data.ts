@@ -139,7 +139,14 @@ export const STRENGTH_SESSIONS: StrengthSession[] = [
             name: 'Tractions poids libre',
             scheme:
               "6×4-5 reps | Repos 2-3 min | Phase 1 : volume. Explosif en montée.",
-            weeks: w(['S1', '5 reps'], ['S2', '5 reps'], ['S3', '5 reps'], ['S4', '5 reps']),
+            weeks: w(
+              ['S1', '5 reps'],
+              ['S2', '5 reps'],
+              ['S3', '5 reps'],
+              ['S4', '5 reps'],
+              ['S5', '5 reps'],
+              ['S6', '5 reps']
+            ),
           },
         ],
       },
@@ -150,7 +157,13 @@ export const STRENGTH_SESSIONS: StrengthSession[] = [
             id: 'rowing-barre',
             name: 'Rowing barre',
             scheme: '5×5 | Repos 3 min | Dos plat, explosif',
-            weeks: w(['S1', '5×50kg'], ['S2', '5×55kg'], ['S3', '5×60kg'], ['S4', '5×65kg']),
+            weeks: w(
+              ['S1', '5×50kg'],
+              ['S2', '5×55kg'],
+              ['S3', '5×60kg'],
+              ['S4', '5×65kg'],
+              ['S5', '5×70kg']
+            ),
           },
         ],
       },
@@ -194,7 +207,8 @@ export const STRENGTH_SESSIONS: StrengthSession[] = [
               ['S1', '5×30kg'],
               ['S2', '5×32.5kg'],
               ['S3', '5×35kg'],
-              ['S4', '5×37.5kg']
+              ['S4', '5×37.5kg'],
+              ['S5', '5×40kg']
             ),
           },
         ],
@@ -265,7 +279,13 @@ export const STRENGTH_SESSIONS: StrengthSession[] = [
             id: 'dev-militaire-halteres',
             name: 'Dév. militaire haltères',
             scheme: '5×5 | Repos 3 min | Explosif',
-            weeks: w(['S1', '5×24kg'], ['S2', '5×26kg'], ['S3', '5×28kg'], ['S4', '5×30kg']),
+            weeks: w(
+              ['S1', '5×24kg'],
+              ['S2', '5×26kg'],
+              ['S3', '5×28kg'],
+              ['S4', '5×30kg'],
+              ['S5', '5×32kg']
+            ),
           },
         ],
       },
