@@ -34,7 +34,7 @@ export const WEEK_PLAN: WeekDay[] = [
     strengthSessionId: null,
     strengthLabel: null,
     cardio: {
-      label: 'Course – sortie longue + Natation',
+      label: 'Course – spécifique semi + Natation',
       running: true,
       swimming: true,
     },
@@ -49,6 +49,6 @@ export const WEEK_PLAN: WeekDay[] = [
     day: 'Dimanche',
     strengthSessionId: null,
     strengthLabel: null,
-    cardio: { label: 'Foot ou Repos', running: false, swimming: false },
+    cardio: { label: 'Course – sortie longue', running: true, swimming: false },
   },
 ];

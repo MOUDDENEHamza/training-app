@@ -15,7 +15,7 @@ export const SEASON_OVERVIEW: SeasonOverviewRow[] = [
   },
   {
     period: 'Oct.-nov.',
-    running: 'Phase 3 suite + affûtage — 3 séances/sem.',
+    running: 'Phase 3 suite + affûtage — 4 puis 3 séances/sem.',
     swimming: 'Développement + prépa Ironman — 2 séances/sem.',
     strength: '3-4 séances maintien',
   },

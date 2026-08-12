@@ -31,9 +31,21 @@ describe('resolveTodaysSession', () => {
     expect(resolveTodaysSession(RUNNING_PROGRAM, new Date(2026, 5, 21))).toBeNull();
   });
 
-  it('returns null in phase 3, where four sessions run in a different order', () => {
-    expect(resolveTodaysSession(RUNNING_PROGRAM, new Date(2026, 7, 10))).toBeNull();
+  it('maps the four-session phase 3 by position, long run on Sunday', () => {
+    // S9 runs 10-16 août 2026, starting on a Monday.
+    const monday = resolveTodaysSession(RUNNING_PROGRAM, new Date(2026, 7, 10));
+    expect(monday?.label).toBe('S1 – Endurance');
+
+    const wednesday = resolveTodaysSession(RUNNING_PROGRAM, new Date(2026, 7, 12));
+    expect(wednesday?.label).toBe('S2 – Qualité');
+
+    const friday = resolveTodaysSession(RUNNING_PROGRAM, new Date(2026, 7, 14));
+    expect(friday?.label).toBe('S3 – Spécifique semi');
+
+    const sunday = resolveTodaysSession(RUNNING_PROGRAM, new Date(2026, 7, 16));
+    expect(sunday?.label).toBe('Sortie longue');
   });
+
 
   it('falls back to position for phase 4, whose labels do not name days', () => {
     const monday = resolveTodaysSession(RUNNING_PROGRAM, new Date(2026, 9, 19));

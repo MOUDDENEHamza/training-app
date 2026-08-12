@@ -20,8 +20,8 @@ const DAY_NAMES = [
 ] as const;
 
 /**
- * Session index for a day, used only when a phase has exactly three sessions in the
- * usual order: endurance, qualité, sortie longue.
+ * Session index for a day in a three-session phase: endurance, qualité, sortie longue.
+ * Sunday is absent — those phases have no fourth run.
  */
 const POSITION_BY_DAY: Record<string, number> = {
   lundi: 0,
@@ -29,6 +29,19 @@ const POSITION_BY_DAY: Record<string, number> = {
   jeudi: 1,
   vendredi: 2,
   samedi: 2,
+};
+
+/**
+ * Same for a four-session phase: endurance, qualité, spécifique semi, sortie longue —
+ * the weekly plan puts that fourth run on Sunday.
+ */
+const POSITION_BY_DAY_FOUR: Record<string, number> = {
+  lundi: 0,
+  mercredi: 1,
+  jeudi: 1,
+  vendredi: 2,
+  samedi: 2,
+  dimanche: 3,
 };
 
 function toResult(phaseId: string, weekId: string, session: RunningWeekSession): TodaysSession {
@@ -39,9 +52,9 @@ function toResult(phaseId: string, weekId: string, session: RunningWeekSession):
  * Today's running session, or null when it cannot be determined without guessing.
  *
  * Two rules, in order: the day named in the session label (phases 1-2, which also spell out
- * the alternate days), then position within a three-session phase (phase 4, whose labels are
- * silent). Phase 3 has four sessions in a different order, so it resolves to null rather than
- * risk opening the wrong session mid-effort — as do days with no run.
+ * the alternate days), then position within the phase for the silent labels of phases 3 and 4.
+ * Position depends on how many sessions the phase holds — three run Mon/Wed/Fri, four add the
+ * long run on Sunday, matching the weekly plan. Days with no run resolve to null.
  */
 export function resolveTodaysSession(
   program: RunningProgram,
@@ -60,9 +73,14 @@ export function resolveTodaysSession(
     return toResult(phase.id, week.id, byLabel);
   }
 
-  const position = POSITION_BY_DAY[day];
-  if (week.sessions.length === 3 && position !== undefined) {
-    return toResult(phase.id, week.id, week.sessions[position]);
+  const byPosition =
+    week.sessions.length === 3
+      ? POSITION_BY_DAY[day]
+      : week.sessions.length === 4
+        ? POSITION_BY_DAY_FOUR[day]
+        : undefined;
+  if (byPosition !== undefined) {
+    return toResult(phase.id, week.id, week.sessions[byPosition]);
   }
 
   return null;

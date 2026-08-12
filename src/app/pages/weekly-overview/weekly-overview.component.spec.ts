@@ -43,7 +43,7 @@ describe('WeeklyOverviewComponent', () => {
     const links: HTMLAnchorElement[] = Array.from(
       fixture.nativeElement.querySelectorAll('.week-grid a.tag--running')
     );
-    expect(links.length).toBe(3);
+    expect(links.length).toBe(4);
 
     for (const link of links) {
       const href = link.getAttribute('href') ?? '';
@@ -55,11 +55,18 @@ describe('WeeklyOverviewComponent', () => {
   it('shows accurate weekly session counts in the stats row', () => {
     const fixture = TestBed.createComponent(WeeklyOverviewComponent);
     fixture.detectChanges();
-    const values: string[] = Array.from(
-      fixture.nativeElement.querySelectorAll('.stat-tile__value')
-    ).map((el) => (el as HTMLElement).textContent?.trim() ?? '');
-    expect(values).toContain('4');
-    expect(values).toContain('3');
-    expect(values).toContain('2');
+
+    // Paired with their labels rather than collected into a bag of strings: two disciplines now
+    // sit at 4, so a bare toContain('4') would pass even if the counts were swapped.
+    const countFor = (labelFragment: string): string => {
+      const tile = Array.from(
+        fixture.nativeElement.querySelectorAll('.stat-tile') as NodeListOf<HTMLElement>
+      ).find((t) => t.querySelector('.stat-tile__label')?.textContent?.includes(labelFragment));
+      return tile?.querySelector('.stat-tile__value')?.textContent?.trim() ?? '';
+    };
+
+    expect(countFor('muscu')).toBe('4');
+    expect(countFor('course')).toBe('4');
+    expect(countFor('natation')).toBe('2');
   });
 });
