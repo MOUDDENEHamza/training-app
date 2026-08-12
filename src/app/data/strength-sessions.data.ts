@@ -235,9 +235,9 @@ export const STRENGTH_SESSIONS: StrengthSession[] = [
         exercises: [
           {
             id: 'obliques',
-            name: 'Obliques – 4 séries',
+            name: 'Obliques',
             scheme: '4 séries',
-            weeks: w(['S1', '4 s.']),
+            weeks: w(['S1', '1 s.'], ['S2', '1 s.'], ['S3', '1 s.'], ['S4', '1 s.']),
           },
           {
             id: 'chaise-roumaine',
@@ -452,9 +452,9 @@ export const STRENGTH_SESSIONS: StrengthSession[] = [
         exercises: [
           {
             id: 'obliques',
-            name: 'Obliques – 4 séries',
+            name: 'Obliques',
             scheme: '4 séries',
-            weeks: w(['S1', '4 s.']),
+            weeks: w(['S1', '1 s.'], ['S2', '1 s.'], ['S3', '1 s.'], ['S4', '1 s.']),
           },
           {
             id: 'chaise-roumaine',
