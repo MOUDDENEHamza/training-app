@@ -40,10 +40,12 @@ export const WEEK_PLAN: WeekDay[] = [
     },
   },
   {
+    // Phase 3 asks for four runs and three strength sessions. Legs are the one to drop:
+    // running four times a week, long run included, already loads them heavily.
     day: 'Samedi',
-    strengthSessionId: 'jambes',
-    strengthLabel: 'Jambes',
-    cardio: null,
+    strengthSessionId: null,
+    strengthLabel: null,
+    cardio: { label: 'Repos', running: false, swimming: false },
   },
   {
     day: 'Dimanche',

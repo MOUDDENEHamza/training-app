@@ -23,8 +23,19 @@ describe('WeeklyOverviewComponent', () => {
     const links: HTMLAnchorElement[] = Array.from(
       fixture.nativeElement.querySelectorAll('a.tag[href^="/strength/"]')
     );
-    expect(links.length).toBe(4);
+    expect(links.length).toBe(3);
     expect(links.map((a) => a.getAttribute('href'))).toContain('/strength/pecs-triceps');
+  });
+
+  it('keeps one full rest day, with nothing scheduled on it', () => {
+    const fixture = TestBed.createComponent(WeeklyOverviewComponent);
+    fixture.detectChanges();
+
+    const restDays = fixture.componentInstance.weekPlan.filter(
+      (day) => !day.strengthSessionId && !day.cardio?.running && !day.cardio?.swimming
+    );
+    expect(restDays.length).toBe(1);
+    expect(restDays[0].day).toBe('Samedi');
   });
 
   it("highlights exactly today's column, matching the computed day name", () => {
@@ -65,7 +76,7 @@ describe('WeeklyOverviewComponent', () => {
       return tile?.querySelector('.stat-tile__value')?.textContent?.trim() ?? '';
     };
 
-    expect(countFor('muscu')).toBe('4');
+    expect(countFor('muscu')).toBe('3');
     expect(countFor('course')).toBe('4');
     expect(countFor('natation')).toBe('2');
   });

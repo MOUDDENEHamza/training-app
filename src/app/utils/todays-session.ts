@@ -21,14 +21,16 @@ const DAY_NAMES = [
 
 /**
  * Session index for a day in a three-session phase: endurance, qualité, sortie longue.
- * Sunday is absent — those phases have no fourth run.
+ *
+ * Only the days the weekly plan actually schedules a run on. Thursday and Saturday are absent
+ * on purpose: Thursday carries strength alone and Saturday is the rest day, so claiming a
+ * session there would mark a rest day as today's training. Phases 1-2 still reach their
+ * alternate days through their labels, which spell out "(mercredi/jeudi)" and "(vendredi/samedi)".
  */
 const POSITION_BY_DAY: Record<string, number> = {
   lundi: 0,
   mercredi: 1,
-  jeudi: 1,
   vendredi: 2,
-  samedi: 2,
 };
 
 /**
@@ -38,9 +40,7 @@ const POSITION_BY_DAY: Record<string, number> = {
 const POSITION_BY_DAY_FOUR: Record<string, number> = {
   lundi: 0,
   mercredi: 1,
-  jeudi: 1,
   vendredi: 2,
-  samedi: 2,
   dimanche: 3,
 };
 

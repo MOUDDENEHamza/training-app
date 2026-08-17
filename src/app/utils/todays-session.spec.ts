@@ -31,6 +31,14 @@ describe('resolveTodaysSession', () => {
     expect(resolveTodaysSession(RUNNING_PROGRAM, new Date(2026, 5, 21))).toBeNull();
   });
 
+  it('resolves nothing on the days the weekly plan keeps free of running', () => {
+    // Saturday is the rest day and Thursday carries strength only. Phases 3 and 4 have no day
+    // names in their labels, so only the position map speaks for them — it must not claim a
+    // session on a day with no run.
+    expect(resolveTodaysSession(RUNNING_PROGRAM, new Date(2026, 7, 15))).toBeNull();
+    expect(resolveTodaysSession(RUNNING_PROGRAM, new Date(2026, 7, 13))).toBeNull();
+  });
+
   it('maps the four-session phase 3 by position, long run on Sunday', () => {
     // S9 runs 10-16 août 2026, starting on a Monday.
     const monday = resolveTodaysSession(RUNNING_PROGRAM, new Date(2026, 7, 10));
