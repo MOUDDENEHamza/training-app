@@ -1,59 +1,77 @@
 # TrainingApp
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.27.
+A training programme app — running, swimming and strength — with an Angular frontend and a
+Spring Boot backend.
 
-## Development server
-
-To start a local development server, run:
-
-```bash
-ng serve
+```
+front-end/   Angular 19 single-page app, deployed to GitHub Pages
+back-end/    Spring Boot 4 API backed by PostgreSQL
+docs/        Design docs and implementation plans
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Prerequisites
 
-## Code scaffolding
+- **Node 20+** (developed against 24)
+- **JDK 25** — the backend targets Java 25
+- **PostgreSQL 16** running on `localhost:5432`, with two databases:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```sql
+CREATE DATABASE training_app;
+CREATE DATABASE training_app_test;
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Maven does not need installing — the backend is driven through the Maven wrapper.
+
+## Frontend
 
 ```bash
-ng generate --help
+cd front-end
+npm ci
+npm start                                             # http://localhost:4200
+npx ng test --watch=false --browsers=ChromeHeadless
+npx ng build
 ```
 
-## Building
+In development `/api` and `/actuator` are proxied to `http://localhost:8080`, so there is no
+CORS configuration to worry about locally. See `front-end/proxy.conf.json`.
 
-To build the project run:
+Pushing to `master` deploys the frontend to GitHub Pages automatically.
+
+## Backend
+
+Database credentials are read from the environment and are never committed. `DB_PASSWORD` has
+no default, so the application refuses to start without it.
 
 ```bash
-ng build
+export DB_USERNAME=postgres
+export DB_PASSWORD='your password'
+
+cd back-end
+./mvnw spring-boot:run      # http://localhost:8080
+./mvnw verify               # runs against the training_app_test database
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+In Windows PowerShell, use `$env:DB_PASSWORD = "..."` and `.\mvnw.cmd` instead.
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Check it is alive:
 
 ```bash
-ng test
+curl http://localhost:8080/actuator/health
 ```
 
-## Running end-to-end tests
+Health details are shown only under the `local` profile, which `spring-boot:run` activates.
 
-For end-to-end (e2e) testing, run:
+### Configuration
 
-```bash
-ng e2e
-```
+| Variable | Default | Purpose |
+|---|---|---|
+| `DB_URL` | `jdbc:postgresql://localhost:5432/training_app` | Main database |
+| `TEST_DB_URL` | `jdbc:postgresql://localhost:5432/training_app_test` | Test database |
+| `DB_USERNAME` | `postgres` | |
+| `DB_PASSWORD` | *none — required* | |
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Status
 
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+The backend is a foundation only: it boots, reaches Postgres and reports its health. It has no
+business endpoints yet. The five planned increments are recorded in
+`docs/superpowers/specs/2026-08-20-backend-foundation-design.md`.
