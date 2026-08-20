@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: training-app
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/training_app}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: never
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+management:
+  endpoint:
+    health:
+      show-details: always

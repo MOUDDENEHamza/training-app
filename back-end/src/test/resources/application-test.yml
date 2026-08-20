@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: ${TEST_DB_URL:jdbc:postgresql://localhost:5432/training_app_test}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD}
