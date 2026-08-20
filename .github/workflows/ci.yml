@@ -6,6 +6,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   back-end:
     runs-on: ubuntu-latest
@@ -20,7 +23,7 @@ jobs:
         ports:
           - 5432:5432
         options: >-
-          --health-cmd pg_isready
+          --health-cmd "pg_isready -U postgres -d training_app_test"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -42,3 +45,9 @@ jobs:
         env:
           DB_USERNAME: postgres
           DB_PASSWORD: postgres
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: surefire-reports
+          path: back-end/target/surefire-reports/

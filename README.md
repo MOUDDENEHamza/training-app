@@ -46,7 +46,7 @@ no default, so the application refuses to start without it.
 export DB_USERNAME=postgres
 export DB_PASSWORD='your password'
 
-cd back-end
+cd ../back-end
 ./mvnw spring-boot:run      # http://localhost:8080
 ./mvnw verify               # runs against the training_app_test database
 ```
@@ -61,12 +61,14 @@ curl http://localhost:8080/actuator/health
 
 Health details are shown only under the `local` profile, which `spring-boot:run` activates.
 
+`.github/workflows/ci.yml` builds and tests the backend on pull requests and pushes to
+`master`, using a Postgres service container so no local setup is needed to reproduce it.
+
 ### Configuration
 
 | Variable | Default | Purpose |
 |---|---|---|
 | `DB_URL` | `jdbc:postgresql://localhost:5432/training_app` | Main database |
-| `TEST_DB_URL` | `jdbc:postgresql://localhost:5432/training_app_test` | Test database |
 | `DB_USERNAME` | `postgres` | |
 | `DB_PASSWORD` | *none — required* | |
 

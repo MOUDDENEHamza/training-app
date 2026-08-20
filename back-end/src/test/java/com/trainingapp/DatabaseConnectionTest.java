@@ -35,6 +35,6 @@ class DatabaseConnectionTest {
 
     @Test
     void flywayReachesTheDatabaseAndHasNothingToApply() {
-        assertThat(flyway.info().applied()).isEmpty();
+        assertThat(flyway.info().pending()).isEmpty();
     }
 }

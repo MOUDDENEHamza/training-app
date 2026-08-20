@@ -6,6 +6,7 @@
       "type": "npm",
       "script": "start",
       "path": "front-end/",
+      "label": "npm: start",
       "isBackground": true,
       "problemMatcher": {
         "owner": "typescript",
@@ -25,6 +26,7 @@
       "type": "npm",
       "script": "test",
       "path": "front-end/",
+      "label": "npm: test",
       "isBackground": true,
       "problemMatcher": {
         "owner": "typescript",
